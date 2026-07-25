@@ -1,55 +1,97 @@
-import { getProducts } from "@/features/products/queries"
 import Link from "next/link"
+import Image from "next/image"
+import { getProducts } from "@/features/products/queries"
+import { getMediaById } from "@/features/media/queries"
+import { RiArrowRightLine, RiDatabase2Line } from "@remixicon/react"
 import { Button } from "@/components/ui/button"
 
 export default async function ProductsPage() {
   const products = await getProducts({ publishedOnly: true })
 
+  // Resolve cover images if available
+  const productsWithImages = await Promise.all(
+    products.map(async (product) => {
+      let imageUrl = '/Factory Image.png' // Default fallback
+      if (product.cover_image_id) {
+        try {
+          const media = await getMediaById(product.cover_image_id)
+          if (media?.url) imageUrl = media.url
+        } catch (_) {
+          console.error("Failed to fetch image for product", product.id)
+        }
+      }
+      return { ...product, imageUrl }
+    })
+  )
+
   return (
-    <div className="container mx-auto px-4 py-12 md:py-16 max-w-6xl">
-      <div className="space-y-4 mb-12 text-center">
-        <h1 className="text-4xl font-bold tracking-tight text-primary">Our Products</h1>
-        <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-          Explore our range of high-precision industrial machinery, designed for reliability and performance.
-        </p>
+    <div className="bg-white">
+      <div className="bg-[#1E3448] py-24 sm:py-32">
+        <div className="mx-auto max-w-7xl px-6 lg:px-8 text-center">
+          <h1 className="text-4xl font-bold tracking-tight text-white sm:text-5xl">Our Products</h1>
+          <p className="mt-6 text-lg leading-8 text-slate-300 max-w-2xl mx-auto">
+            Discover our high-performance agro-food cleaning and sorting machines, engineered for precision and reliability.
+          </p>
+        </div>
       </div>
 
-      {products.length === 0 ? (
-        <div className="text-center py-20 border rounded-lg bg-muted/20">
-          <p className="text-muted-foreground">No products available at this time.</p>
-        </div>
-      ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {products.map((product) => (
-            <Link key={product.id} href={`/products/${product.slug}`} className="group block">
-              <div className="border rounded-lg overflow-hidden bg-card shadow-sm transition-shadow hover:shadow-md flex flex-col h-full">
-                <div className="aspect-video bg-muted/30 w-full flex items-center justify-center text-muted-foreground">
-                  {/* Placeholder for Product Primary Image */}
-                  [Image: {product.name}]
+      <div className="mx-auto max-w-7xl px-6 py-16 sm:py-24 lg:px-8">
+        {productsWithImages.length === 0 ? (
+          <div className="text-center py-24 bg-slate-50 rounded-3xl border border-slate-100">
+            <RiDatabase2Line className="mx-auto h-12 w-12 text-slate-400" />
+            <h3 className="mt-4 text-sm font-semibold text-slate-900">No products available</h3>
+            <p className="mt-2 text-sm text-slate-500">Check back later for new machine releases.</p>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 gap-y-16 sm:grid-cols-2 sm:gap-x-8 lg:grid-cols-3">
+            {productsWithImages.map((product) => (
+              <div key={product.id} className="group flex flex-col bg-slate-50 rounded-2xl overflow-hidden shadow-sm border border-slate-100 transition-all hover:shadow-md">
+                <div className="relative aspect-[4/3] w-full overflow-hidden bg-slate-200">
+                  <Image
+                    src={product.imageUrl}
+                    alt={product.name}
+                    fill
+                    className="object-cover object-center group-hover:scale-105 transition-transform duration-500"
+                  />
+                  {product.sku && (
+                    <div className="absolute top-4 left-4 bg-white/90 backdrop-blur px-3 py-1 rounded-full text-xs font-bold text-[#324E64]">
+                      {product.sku}
+                    </div>
+                  )}
                 </div>
-                <div className="p-6 flex flex-col flex-grow">
-                  <div className="mb-2">
-                    {product.category && (
-                      <span className="text-xs font-semibold uppercase tracking-wider text-accent mr-2">
-                        {product.category}
-                      </span>
-                    )}
-                  </div>
-                  <h2 className="text-xl font-bold mb-2 group-hover:text-primary transition-colors">
-                    {product.name}
-                  </h2>
-                  <p className="text-muted-foreground text-sm line-clamp-2 mb-6 flex-grow">
-                    {product.short_description || "Click to view product details."}
+                <div className="flex flex-1 flex-col p-6">
+                  <h3 className="text-xl font-bold text-[#324E64]">
+                    <Link href={`/products/${product.slug}`}>
+                      <span className="absolute inset-0" />
+                      {product.name}
+                    </Link>
+                  </h3>
+                  <p className="mt-4 flex-1 text-sm leading-6 text-slate-600 line-clamp-3">
+                    {product.description || product.short_description}
                   </p>
-                  <Button variant="outline" className="w-full mt-auto">
-                    View Details
-                  </Button>
+                  <div className="mt-6 flex items-center justify-between">
+                    <span className="text-sm font-semibold text-[#F3BA43] flex items-center group-hover:text-[#324E64] transition-colors">
+                      View Details <RiArrowRightLine className="ml-1 h-4 w-4" />
+                    </span>
+                  </div>
                 </div>
               </div>
+            ))}
+          </div>
+        )}
+      </div>
+
+      <div className="bg-slate-50 py-16">
+        <div className="mx-auto max-w-7xl px-6 lg:px-8 text-center">
+          <h2 className="text-2xl font-bold tracking-tight text-[#324E64]">Need a custom solution?</h2>
+          <p className="mt-4 text-slate-600">Our engineering team can design machines tailored to your specific processing line.</p>
+          <div className="mt-8">
+            <Link href="/contact">
+              <Button className="bg-[#324E64] hover:bg-[#324E64]/90 text-white px-8">Contact Engineering</Button>
             </Link>
-          ))}
+          </div>
         </div>
-      )}
+      </div>
     </div>
   )
 }

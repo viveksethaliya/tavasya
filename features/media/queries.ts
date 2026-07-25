@@ -15,3 +15,20 @@ export async function getMedia() {
 
   return data
 }
+
+export async function getMediaById(id: string) {
+  const supabase = await createClient()
+
+  const { data, error } = await supabase
+    .from("media")
+    .select("*")
+    .eq("id", id)
+    .single()
+
+  if (error) {
+    console.error("Error fetching media by id:", error)
+    return null
+  }
+
+  return data
+}

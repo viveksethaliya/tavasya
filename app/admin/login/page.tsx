@@ -1,7 +1,10 @@
 'use client'
 
 import React, { useState } from 'react'
+import { Inter } from 'next/font/google'
 import { signIn } from '@/server/auth/actions'
+
+const inter = Inter({ subsets: ['latin'] })
 
 export default function AdminLoginPage() {
   const [error, setError] = useState<string | null>(null)
@@ -38,7 +41,7 @@ export default function AdminLoginPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50">
+    <div className={`min-h-screen flex items-center justify-center bg-gray-50 ${inter.className}`}>
       <div className="max-w-md w-full p-8 bg-white rounded-lg shadow-sm">
         <h1 className="text-2xl font-semibold mb-6 text-center">Admin Login</h1>
         

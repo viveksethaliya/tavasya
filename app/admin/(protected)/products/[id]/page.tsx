@@ -1,13 +1,16 @@
-import { ProductForm } from "@/features/products/product-form"
-import { getProductById } from "@/features/products/queries"
-import { RiArrowLeftLine } from "@remixicon/react"
-import Link from "next/link"
-import { Button } from "@/components/ui/button"
-import { notFound } from "next/navigation"
+import { ProductForm } from '@/features/products/product-form'
+import { getProductById, getProducts } from '@/features/products/queries'
+import { getProductImages, getProductSpecs, getProductFeatures } from '@/features/products/actions'
+import { RiArrowLeftLine } from '@remixicon/react'
+import Link from 'next/link'
+import { Button } from '@/components/ui/button'
+import { notFound } from 'next/navigation'
+
+export const dynamic = 'force-dynamic'
 
 export default async function EditProductPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params
-  
+
   let product
   try {
     product = await getProductById(id)
@@ -15,20 +18,43 @@ export default async function EditProductPage({ params }: { params: Promise<{ id
     notFound()
   }
 
+  const [imagesRes, specsRes, featuresRes] = await Promise.all([
+    getProductImages(id),
+    getProductSpecs(id),
+    getProductFeatures(id),
+  ])
+
   return (
     <div className="space-y-6">
-      <div className="flex items-center space-x-4">
+      <div className="flex items-center gap-4">
         <Link href="/admin/products">
-          <Button variant="ghost" size="icon">
-            <RiArrowLeftLine className="h-4 w-4" />
+          <Button variant="ghost" size="icon" aria-label="Back to products">
+            <RiArrowLeftLine className="h-5 w-5" />
           </Button>
         </Link>
-        <h1 className="text-2xl font-bold tracking-tight">Edit Product</h1>
+        <div>
+          <h1 className="text-2xl font-bold text-[#324E64] tracking-tight">Edit Product</h1>
+          <p className="text-sm text-slate-500 mt-0.5">{product.name}</p>
+        </div>
       </div>
-      
-      <div className="rounded-md border bg-card p-6">
-        <ProductForm initialData={product} />
+
+      <div className="bg-white rounded-2xl border border-slate-100 shadow-sm p-6 lg:p-8">
+        <ProductForm
+          initialData={product}
+          initialImages={(imagesRes.data ?? []) as unknown as Parameters<typeof ProductForm>[0]['initialImages']}
+          initialSpecs={specsRes.data ?? []}
+          initialFeatures={featuresRes.data ?? []}
+        />
       </div>
     </div>
   )
+}
+
+export async function generateStaticParams() {
+  try {
+    const products = await getProducts()
+    return products.map((p) => ({ id: p.id }))
+  } catch {
+    return []
+  }
 }

@@ -17,18 +17,22 @@ export default async function EditCollectionPage({ params }: { params: Promise<{
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center space-x-4">
+      <div className="flex items-center gap-4">
         <Link href="/admin/collections">
-          <Button variant="ghost" size="icon">
-            <RiArrowLeftLine className="h-4 w-4" />
+          <Button variant="ghost" size="icon" aria-label="Back to collections">
+            <RiArrowLeftLine className="h-5 w-5" />
           </Button>
         </Link>
-        <h1 className="text-2xl font-bold tracking-tight">Edit Collection</h1>
+        <div>
+          <h1 className="text-2xl font-bold text-[#324E64] tracking-tight">Edit Collection</h1>
+          <p className="text-sm text-slate-500 mt-0.5">{collection.name}</p>
+        </div>
       </div>
-      
-      <div className="rounded-md border bg-card p-6">
+
+      <div className="bg-white rounded-2xl border border-slate-100 shadow-sm p-6 lg:p-8">
         <CollectionForm initialData={collection} />
       </div>
     </div>
   )
 }
+

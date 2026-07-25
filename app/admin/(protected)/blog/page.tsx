@@ -5,7 +5,8 @@ import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { ConfirmDialog } from "@/components/ui/confirm-dialog"
-import { RiAddLine, RiPencilLine, RiDeleteBinLine } from "@remixicon/react"
+import { IconButton } from "@/components/ui/icon-button"
+import { RiAddLine, RiEdit2Line, RiDeleteBinLine } from "@remixicon/react"
 import { format } from "date-fns"
 import Link from "next/link"
 
@@ -14,45 +15,48 @@ export default async function BlogAdminPage() {
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <h1 className="text-3xl font-bold tracking-tight">Blog Posts</h1>
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div>
+          <h1 className="text-2xl font-bold text-[#324E64] tracking-tight">Blog Posts</h1>
+          <p className="text-sm text-slate-500 mt-1">Manage your articles, news, and guides.</p>
+        </div>
         <Link href="/admin/blog/new">
-          <Button>
+          <Button className="bg-[#324E64] hover:bg-[#324E64]/90 w-full sm:w-auto">
             <RiAddLine className="mr-2 h-4 w-4" />
-            Add Post
+            New Post
           </Button>
         </Link>
       </div>
 
-      <div className="rounded-md border bg-card">
+      <div className="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
         <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>Title</TableHead>
-              <TableHead>Author</TableHead>
-              <TableHead>Published Date</TableHead>
-              <TableHead>Status</TableHead>
-              <TableHead className="text-right">Actions</TableHead>
+          <TableHeader className="bg-[#F0F2F5]">
+            <TableRow className="hover:bg-[#F0F2F5]">
+              <TableHead className="font-semibold text-[#324E64]">Title</TableHead>
+              <TableHead className="font-semibold text-[#324E64]">Author</TableHead>
+              <TableHead className="font-semibold text-[#324E64]">Published Date</TableHead>
+              <TableHead className="font-semibold text-[#324E64]">Status</TableHead>
+              <TableHead className="text-right font-semibold text-[#324E64]">Actions</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {blogs.length === 0 ? (
               <TableRow>
-                <TableCell colSpan={5} className="h-24 text-center text-muted-foreground">
+                <TableCell colSpan={5} className="h-24 text-center text-slate-500">
                   No blog posts found.
                 </TableCell>
               </TableRow>
             ) : (
               blogs.map((blog) => (
-                <TableRow key={blog.id}>
-                  <TableCell className="font-medium">
+                <TableRow key={blog.id} className="hover:bg-slate-50 transition-colors">
+                  <TableCell className="font-medium text-slate-900">
                     {blog.title}
-                    <div className="text-xs text-muted-foreground font-normal">{blog.slug}</div>
+                    <div className="text-xs text-slate-500 font-normal">{blog.slug}</div>
                   </TableCell>
-                  <TableCell className="text-muted-foreground">
+                  <TableCell className="text-slate-500">
                     {blog.author_name || "-"}
                   </TableCell>
-                  <TableCell className="text-muted-foreground">
+                  <TableCell className="text-slate-500">
                     {blog.published_at ? format(new Date(blog.published_at), "MMM d, yyyy") : "-"}
                   </TableCell>
                   <TableCell>
@@ -60,24 +64,18 @@ export default async function BlogAdminPage() {
                       {blog.status}
                     </Badge>
                   </TableCell>
-                  <TableCell className="text-right">
-                    <div className="flex justify-end gap-2">
-                      <Link href={`/admin/blog/${blog.id}`}>
-                        <Button variant="ghost" size="icon">
-                          <RiPencilLine className="h-4 w-4" />
-                        </Button>
-                      </Link>
-                      <ConfirmDialog
-                        title="Delete Post"
-                        description={`Are you sure you want to delete "${blog.title}"? This action cannot be undone.`}
-                        onConfirm={deleteBlog.bind(null, blog.id)}
-                        trigger={
-                          <Button variant="ghost" size="icon" className="text-destructive hover:text-destructive hover:bg-destructive/10">
-                            <RiDeleteBinLine className="h-4 w-4" />
-                          </Button>
-                        }
-                      />
-                    </div>
+                  <TableCell className="text-right space-x-2">
+                    <Link href={`/admin/blog/${blog.id}`}>
+                      <IconButton aria-label="Edit post" icon={<RiEdit2Line className="h-4 w-4" />} />
+                    </Link>
+                    <ConfirmDialog
+                      title="Delete Post"
+                      description={`Are you sure you want to delete "${blog.title}"? This action cannot be undone.`}
+                      destructive
+                      confirmText="Delete"
+                      onConfirm={deleteBlog.bind(null, blog.id)}
+                      trigger={<IconButton aria-label="Delete post" variant="destructive" icon={<RiDeleteBinLine className="h-4 w-4" />} />}
+                    />
                   </TableCell>
                 </TableRow>
               ))

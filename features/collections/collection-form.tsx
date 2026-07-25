@@ -13,6 +13,7 @@ import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, For
 import { toast } from "sonner"
 import { useRouter } from "next/navigation"
 import { ProductAssignmentPicker } from "./product-assignment-picker"
+import { MediaPickerModal } from "@/features/media/components/media-picker-modal"
 
 interface CollectionFormProps {
   initialData?: CollectionFormValues & { id: string }
@@ -100,17 +101,17 @@ export function CollectionForm({ initialData }: CollectionFormProps) {
               )}
             />
 
-            {/* Media Stub - Will integrate proper MediaPickerModal in Phase 8 */}
+            {/* Collection Image from Media Library */}
             <FormField
               control={form.control}
               name="image_id"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Collection Image ID (Media Library coming soon)</FormLabel>
+                  <FormLabel>Collection Image</FormLabel>
                   <FormControl>
-                    <Input placeholder="UUID of media record..." {...field} value={field.value || ""} />
+                    <MediaPickerModal value={field.value} onChange={field.onChange} />
                   </FormControl>
-                  <FormDescription>For now, paste an existing media ID or leave blank.</FormDescription>
+                  <FormDescription>Select an image from the media library.</FormDescription>
                   <FormMessage />
                 </FormItem>
               )}

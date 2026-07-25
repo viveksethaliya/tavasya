@@ -15,10 +15,13 @@ export default async function AdminProductsPage() {
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold tracking-tight">Products</h1>
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div>
+          <h1 className="text-2xl font-bold text-[#324E64] tracking-tight">Products</h1>
+          <p className="text-sm text-slate-500 mt-1">Manage your machinery and equipment catalog.</p>
+        </div>
         <Link href="/admin/products/new">
-          <Button>
+          <Button className="bg-[#324E64] hover:bg-[#324E64]/90 w-full sm:w-auto">
             <RiAddLine className="mr-2 h-4 w-4" />
             New Product
           </Button>
@@ -36,23 +39,23 @@ export default async function AdminProductsPage() {
           }
         />
       ) : (
-        <div className="rounded-md border">
+        <div className="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
           <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>Name</TableHead>
-                <TableHead>SKU</TableHead>
-                <TableHead>Category</TableHead>
-                <TableHead>Status</TableHead>
-                <TableHead className="text-right">Actions</TableHead>
+            <TableHeader className="bg-[#F0F2F5]">
+              <TableRow className="hover:bg-[#F0F2F5]">
+                <TableHead className="font-semibold text-[#324E64]">Name</TableHead>
+                <TableHead className="font-semibold text-[#324E64]">SKU</TableHead>
+                <TableHead className="font-semibold text-[#324E64]">Category</TableHead>
+                <TableHead className="font-semibold text-[#324E64]">Status</TableHead>
+                <TableHead className="text-right font-semibold text-[#324E64]">Actions</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {products.map((product) => (
-                <TableRow key={product.id}>
-                  <TableCell className="font-medium">{product.name}</TableCell>
-                  <TableCell>{product.sku || "-"}</TableCell>
-                  <TableCell>{product.category || "-"}</TableCell>
+                <TableRow key={product.id} className="hover:bg-slate-50 transition-colors">
+                  <TableCell className="font-medium text-slate-900">{product.name}</TableCell>
+                  <TableCell className="text-slate-500">{product.sku || "-"}</TableCell>
+                  <TableCell className="text-slate-500">{product.category || "-"}</TableCell>
                   <TableCell>
                     <Badge variant={product.status === "published" ? "default" : "secondary"}>
                       {product.status}
@@ -64,7 +67,7 @@ export default async function AdminProductsPage() {
                     </Link>
                     <ConfirmDialog
                       title="Delete Product"
-                      description="Are you sure you want to delete this product? This action cannot be undone."
+                      description={`Are you sure you want to delete ${product.name}? This action cannot be undone.`}
                       destructive
                       confirmText="Delete"
                       onConfirm={deleteProduct.bind(null, product.id)}

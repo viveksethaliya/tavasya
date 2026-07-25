@@ -1,53 +1,60 @@
-import { getCollections } from "@/features/collections/queries"
 import Link from "next/link"
-import { Button } from "@/components/ui/button"
+import { getCollections } from "@/features/collections/queries"
+import { RiFolder3Line, RiArrowRightLine } from "@remixicon/react"
 
 export default async function CollectionsPage() {
   const collections = await getCollections({ publishedOnly: true })
 
   return (
-    <div className="container mx-auto px-4 py-12 md:py-16 max-w-6xl">
-      <div className="space-y-4 mb-12 text-center">
-        <h1 className="text-4xl font-bold tracking-tight text-primary">Our Collections</h1>
-        <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-          Browse our curated collections of precision machinery and equipment tailored for your specific industry needs.
-        </p>
+    <div className="bg-white">
+      <div className="bg-[#1E3448] py-24 sm:py-32">
+        <div className="mx-auto max-w-7xl px-6 lg:px-8 text-center">
+          <h1 className="text-4xl font-bold tracking-tight text-white sm:text-5xl">Machine Collections</h1>
+          <p className="mt-6 text-lg leading-8 text-slate-300 max-w-2xl mx-auto">
+            Browse our processing solutions categorized by application and industry needs.
+          </p>
+        </div>
       </div>
 
-      {collections.length === 0 ? (
-        <div className="text-center py-20 border rounded-lg bg-muted/20">
-          <p className="text-muted-foreground">No collections available at this time.</p>
-        </div>
-      ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {collections.map((collection) => (
-            <Link key={collection.id} href={`/collections/${collection.slug}`} className="group block">
-              <div className="border rounded-lg overflow-hidden bg-card shadow-sm transition-shadow hover:shadow-md flex flex-col h-full">
-                <div className="aspect-[16/10] bg-muted/30 w-full flex items-center justify-center text-muted-foreground">
-                  {/* Placeholder for Collection Image */}
-                  [Image: {collection.name}]
-                </div>
-                <div className="p-6 flex flex-col flex-grow">
-                  <h2 className="text-xl font-bold mb-2 group-hover:text-primary transition-colors">
+      <div className="mx-auto max-w-7xl px-6 py-16 sm:py-24 lg:px-8">
+        {collections.length === 0 ? (
+          <div className="text-center py-24 bg-slate-50 rounded-3xl border border-slate-100">
+            <RiFolder3Line className="mx-auto h-12 w-12 text-slate-400" />
+            <h3 className="mt-4 text-sm font-semibold text-slate-900">No collections available</h3>
+            <p className="mt-2 text-sm text-slate-500">Check back later for curated machine sets.</p>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 gap-y-12 sm:grid-cols-2 sm:gap-x-8 lg:grid-cols-3">
+            {collections.map((collection) => (
+              <Link 
+                key={collection.id} 
+                href={`/collections/${collection.slug}`}
+                className="group flex flex-col bg-slate-50 rounded-2xl overflow-hidden shadow-sm border border-slate-100 transition-all hover:shadow-md hover:-translate-y-1"
+              >
+                <div className="flex flex-1 flex-col p-8">
+                  <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-sm border border-slate-100 mb-6">
+                    <RiFolder3Line className="h-6 w-6 text-[#F3BA43]" />
+                  </div>
+                  <h3 className="text-xl font-bold text-[#324E64] group-hover:text-[#F3BA43] transition-colors">
                     {collection.name}
-                  </h2>
-                  <p className="text-muted-foreground text-sm line-clamp-3 mb-6 flex-grow">
-                    {collection.description || "View products in this collection."}
+                  </h3>
+                  <p className="mt-4 flex-1 text-sm leading-6 text-slate-600 line-clamp-3">
+                    {collection.description}
                   </p>
-                  <div className="flex items-center justify-between mt-auto">
-                    <span className="text-xs font-semibold uppercase tracking-wider text-accent">
-                      {collection.product_count} Products
+                  <div className="mt-8 flex items-center justify-between text-sm">
+                    <span className="font-medium text-slate-500">
+                      {collection.product_count} {collection.product_count === 1 ? 'Product' : 'Products'}
                     </span>
-                    <Button variant="ghost" size="sm" className="group-hover:translate-x-1 transition-transform">
-                      View Collection &rarr;
-                    </Button>
+                    <span className="font-semibold text-[#324E64] flex items-center group-hover:text-[#F3BA43] transition-colors">
+                      Browse <RiArrowRightLine className="ml-1 h-4 w-4" />
+                    </span>
                   </div>
                 </div>
-              </div>
-            </Link>
-          ))}
-        </div>
-      )}
+              </Link>
+            ))}
+          </div>
+        )}
+      </div>
     </div>
   )
 }
