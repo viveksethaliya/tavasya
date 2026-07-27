@@ -5,6 +5,7 @@ import { requireAdmin } from "@/server/auth/requireAdmin"
 import { blogSchema, BlogFormValues } from "./schema"
 import { revalidatePath } from "next/cache"
 import { slugify } from "@/utils/slugify"
+import DOMPurify from "isomorphic-dompurify"
 
 export async function createBlog(data: BlogFormValues) {
   try {
@@ -37,16 +38,21 @@ export async function createBlog(data: BlogFormValues) {
       published_at = null
     }
 
-    // Clean up empty string canonical url since the schema allows it but DB might not like it
     const canonical_url = parsed.canonical_url === "" ? null : parsed.canonical_url
+    const cover_image_id = parsed.cover_image_id === "" ? null : parsed.cover_image_id
+    const og_image_id = parsed.og_image_id === "" ? null : parsed.og_image_id
+    const content = parsed.content ? DOMPurify.sanitize(parsed.content) : parsed.content
 
     const { data: blog, error } = await supabase
       .from("blogs")
       .insert({
         ...parsed,
+        content,
         slug,
         published_at,
         canonical_url,
+        cover_image_id,
+        og_image_id,
       })
       .select("id")
       .single()
@@ -91,12 +97,16 @@ export async function updateBlog(id: string, data: BlogFormValues) {
       return { success: false, error: { message: "A blog post with this slug already exists. Please choose another." } }
     }
 
-    // Fetch existing blog to check old status
-    const { data: oldBlog } = await supabase
+    // Fetch existing blog to check old status and slug
+    const { data: oldBlog, error: fetchError } = await supabase
       .from("blogs")
-      .select("status, published_at")
+      .select("status, published_at, slug")
       .eq("id", id)
       .single()
+
+    if (fetchError || !oldBlog) {
+      return { success: false, error: { message: "Blog post not found." } }
+    }
 
     // Handle publishing logic
     let published_at = parsed.published_at || (oldBlog?.published_at)
@@ -107,14 +117,20 @@ export async function updateBlog(id: string, data: BlogFormValues) {
     }
 
     const canonical_url = parsed.canonical_url === "" ? null : parsed.canonical_url
+    const cover_image_id = parsed.cover_image_id === "" ? null : parsed.cover_image_id
+    const og_image_id = parsed.og_image_id === "" ? null : parsed.og_image_id
+    const content = parsed.content ? DOMPurify.sanitize(parsed.content) : parsed.content
 
     const { error } = await supabase
       .from("blogs")
       .update({
         ...parsed,
+        content,
         slug,
         published_at,
         canonical_url,
+        cover_image_id,
+        og_image_id,
         updated_at: new Date().toISOString(),
       })
       .eq("id", id)
@@ -124,6 +140,9 @@ export async function updateBlog(id: string, data: BlogFormValues) {
     revalidatePath("/admin/blog")
     revalidatePath("/blog")
     revalidatePath(`/blog/${slug}`)
+    if (oldBlog.slug && oldBlog.slug !== slug) {
+      revalidatePath(`/blog/${oldBlog.slug}`)
+    }
     
     return { success: true }
   } catch (error: unknown) {
@@ -142,15 +161,22 @@ export async function deleteBlog(id: string) {
     await requireAdmin()
     const supabase = await createClient()
 
-    const { error } = await supabase
+    const { data: deletedBlog, error } = await supabase
       .from("blogs")
       .delete()
       .eq("id", id)
+      .select("id, slug")
+      .single()
 
-    if (error) throw error
+    if (error) {
+      return { success: false, error: { message: "Blog post not found or could not be deleted." } }
+    }
 
     revalidatePath("/admin/blog")
     revalidatePath("/blog")
+    if (deletedBlog?.slug) {
+      revalidatePath(`/blog/${deletedBlog.slug}`)
+    }
 
     return { success: true }
   } catch (error: unknown) {

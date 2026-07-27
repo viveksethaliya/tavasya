@@ -61,7 +61,7 @@ export default async function ProductDetailPage(props: { params: Promise<{ slug:
             {galleryUrls.length > 0 && (
               <div className="mt-4 grid grid-cols-4 gap-4">
                 {galleryUrls.map((url, idx) => (
-                  <div key={idx} className="relative aspect-square w-full overflow-hidden rounded-lg bg-slate-100">
+                  <div key={idx} className="relative aspect-square w-full overflow-hidden rounded-lg bg-slate-100 cursor-pointer hover:opacity-90 hover:ring-2 hover:ring-[#F3BA43] hover:ring-offset-2 transition-all duration-300">
                     <Image
                       src={url}
                       alt={`${product.name} view ${idx + 1}`}
@@ -97,7 +97,7 @@ export default async function ProductDetailPage(props: { params: Promise<{ slug:
                 <div className="mt-4 border-t border-slate-100">
                   <dl className="divide-y divide-slate-100">
                     {Object.entries(product.specifications).map(([key, value]) => (
-                      <div key={key} className="px-4 py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                      <div key={key} className="px-4 py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-4 hover:bg-slate-50 transition-colors rounded-lg">
                         <dt className="text-sm font-medium leading-6 text-slate-900 capitalize">{key.replace(/_/g, ' ')}</dt>
                         <dd className="mt-1 text-sm leading-6 text-slate-700 sm:col-span-2 sm:mt-0">{String(value)}</dd>
                       </div>
@@ -109,7 +109,7 @@ export default async function ProductDetailPage(props: { params: Promise<{ slug:
 
             <div className="mt-10 flex">
               <Link href="/contact" className="w-full">
-                <Button className="w-full bg-[#324E64] hover:bg-[#324E64]/90 text-white py-6 text-lg rounded-xl">
+                <Button className="w-full bg-[#324E64] hover:bg-[#324E64]/90 text-white py-6 text-lg rounded-xl shadow-lg shadow-[#324E64]/20 hover:shadow-xl hover:shadow-[#324E64]/30 hover:-translate-y-1 transition-all duration-300">
                   Request a Quote
                 </Button>
               </Link>

@@ -7,8 +7,11 @@ export async function getSiteSettings() {
     .select('*')
     .eq('id', 1)
     .single()
-  if (error) return null
-  return data
+  if (error && error.code !== 'PGRST116') {
+    // PGRST116 = "no rows found" — treat as empty config, not an error
+    return { data: null, error: error.message }
+  }
+  return { data: data ?? null, error: null }
 }
 
 export async function getPages() {
@@ -17,6 +20,8 @@ export async function getPages() {
     .from('pages')
     .select('*')
     .order('route_key')
-  if (error) return []
-  return data ?? []
+  if (error) {
+    return { data: [], error: error.message }
+  }
+  return { data: data ?? [], error: null }
 }

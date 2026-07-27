@@ -22,7 +22,14 @@ export async function submitContactForm(formData: FormData) {
       message: formData.get('message') as string,
     }
 
-    const validated = contactSchema.parse(data)
+    const validated = contactSchema.safeParse(data)
+    
+    if (!validated.success) {
+      return {
+        success: false,
+        error: validated.error.issues?.[0]?.message || "Validation failed"
+      }
+    }
 
     // Get IP address for rate limiting
     const headersList = await headers()
@@ -51,11 +58,11 @@ export async function submitContactForm(formData: FormData) {
     const { error } = await supabase
       .from('contact_submissions')
       .insert({
-        name: validated.name,
-        email: validated.email,
-        phone: validated.phone || null,
-        company: validated.company || null,
-        message: validated.message,
+        name: validated.data.name,
+        email: validated.data.email,
+        phone: validated.data.phone || null,
+        company: validated.data.company || null,
+        message: validated.data.message,
         ip_address: ip,
         user_agent: userAgent
       })
@@ -64,14 +71,23 @@ export async function submitContactForm(formData: FormData) {
 
     return { success: true }
   } catch (error: unknown) {
-    if (error instanceof z.ZodError) {
-      return { 
-        success: false, 
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        error: (error as any).errors[0].message 
-      }
-    }
     console.error('Contact submission error:', error)
     return { success: false, error: "Failed to submit message. Please try again." }
   }
+}
+
+export async function updateInquiryStatus(id: string, status: 'new' | 'read' | 'replied' | 'archived') {
+  const supabase = await createClient()
+
+  const { error } = await supabase
+    .from('contact_submissions')
+    .update({ status })
+    .eq('id', id)
+
+  if (error) {
+    console.error('Error updating inquiry status:', error)
+    return { success: false, error: 'Failed to update status' }
+  }
+
+  return { success: true }
 }

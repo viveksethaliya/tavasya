@@ -11,7 +11,7 @@ import { format } from "date-fns"
 import Link from "next/link"
 
 export default async function BlogAdminPage() {
-  const blogs = await getBlogs()
+  const { data: blogs, error } = await getBlogs()
 
   return (
     <div className="space-y-6">
@@ -28,61 +28,68 @@ export default async function BlogAdminPage() {
         </Link>
       </div>
 
-      <div className="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
-        <Table>
-          <TableHeader className="bg-[#F0F2F5]">
-            <TableRow className="hover:bg-[#F0F2F5]">
-              <TableHead className="font-semibold text-[#324E64]">Title</TableHead>
-              <TableHead className="font-semibold text-[#324E64]">Author</TableHead>
-              <TableHead className="font-semibold text-[#324E64]">Published Date</TableHead>
-              <TableHead className="font-semibold text-[#324E64]">Status</TableHead>
-              <TableHead className="text-right font-semibold text-[#324E64]">Actions</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {blogs.length === 0 ? (
-              <TableRow>
-                <TableCell colSpan={5} className="h-24 text-center text-slate-500">
-                  No blog posts found.
-                </TableCell>
+      {error ? (
+        <div className="bg-red-50 border border-red-200 text-red-700 rounded-2xl p-6">
+          <p className="font-semibold">Failed to load blog posts</p>
+          <p className="text-sm mt-1 text-red-600">{error}</p>
+        </div>
+      ) : (
+        <div className="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
+          <Table>
+            <TableHeader className="bg-[#F0F2F5]">
+              <TableRow className="hover:bg-[#F0F2F5]">
+                <TableHead className="font-semibold text-[#324E64] px-6 py-4">Title</TableHead>
+                <TableHead className="font-semibold text-[#324E64] px-6 py-4">Author</TableHead>
+                <TableHead className="font-semibold text-[#324E64] px-6 py-4">Published Date</TableHead>
+                <TableHead className="font-semibold text-[#324E64] px-6 py-4">Status</TableHead>
+                <TableHead className="text-right font-semibold text-[#324E64] px-6 py-4">Actions</TableHead>
               </TableRow>
-            ) : (
-              blogs.map((blog) => (
-                <TableRow key={blog.id} className="hover:bg-slate-50 transition-colors">
-                  <TableCell className="font-medium text-slate-900">
-                    {blog.title}
-                    <div className="text-xs text-slate-500 font-normal">{blog.slug}</div>
-                  </TableCell>
-                  <TableCell className="text-slate-500">
-                    {blog.author_name || "-"}
-                  </TableCell>
-                  <TableCell className="text-slate-500">
-                    {blog.published_at ? format(new Date(blog.published_at), "MMM d, yyyy") : "-"}
-                  </TableCell>
-                  <TableCell>
-                    <Badge variant={blog.status === "published" ? "default" : "secondary"}>
-                      {blog.status}
-                    </Badge>
-                  </TableCell>
-                  <TableCell className="text-right space-x-2">
-                    <Link href={`/admin/blog/${blog.id}`}>
-                      <IconButton aria-label="Edit post" icon={<RiEdit2Line className="h-4 w-4" />} />
-                    </Link>
-                    <ConfirmDialog
-                      title="Delete Post"
-                      description={`Are you sure you want to delete "${blog.title}"? This action cannot be undone.`}
-                      destructive
-                      confirmText="Delete"
-                      onConfirm={deleteBlog.bind(null, blog.id)}
-                      trigger={<IconButton aria-label="Delete post" variant="destructive" icon={<RiDeleteBinLine className="h-4 w-4" />} />}
-                    />
+            </TableHeader>
+            <TableBody>
+              {blogs.length === 0 ? (
+                <TableRow>
+                  <TableCell colSpan={5} className="h-24 text-center text-slate-500">
+                    No blog posts found.
                   </TableCell>
                 </TableRow>
-              ))
-            )}
-          </TableBody>
-        </Table>
-      </div>
+              ) : (
+                blogs.map((blog) => (
+                  <TableRow key={blog.id} className="hover:bg-slate-50 transition-colors">
+                    <TableCell className="font-medium text-slate-900 px-6 py-4">
+                      {blog.title}
+                      <div className="text-xs text-slate-500 font-normal">{blog.slug}</div>
+                    </TableCell>
+                    <TableCell className="text-slate-500 px-6 py-4">
+                      {blog.author_name || "-"}
+                    </TableCell>
+                    <TableCell className="text-slate-500 px-6 py-4">
+                      {blog.published_at ? format(new Date(blog.published_at), "MMM d, yyyy") : "-"}
+                    </TableCell>
+                    <TableCell className="px-6 py-4">
+                      <Badge variant={blog.status === "published" ? "default" : "secondary"}>
+                        {blog.status}
+                      </Badge>
+                    </TableCell>
+                    <TableCell className="text-right space-x-2 px-6 py-4">
+                      <Link href={`/admin/blog/${blog.id}/edit`}>
+                        <IconButton aria-label="Edit post" icon={<RiEdit2Line className="h-4 w-4" />} />
+                      </Link>
+                      <ConfirmDialog
+                        title="Delete Post"
+                        description={`Are you sure you want to delete "${blog.title}"? This action cannot be undone.`}
+                        destructive
+                        confirmText="Delete"
+                        onConfirm={deleteBlog.bind(null, blog.id)}
+                        trigger={<IconButton aria-label="Delete post" variant="destructive" icon={<RiDeleteBinLine className="h-4 w-4" />} />}
+                      />
+                    </TableCell>
+                  </TableRow>
+                ))
+              )}
+            </TableBody>
+          </Table>
+        </div>
+      )}
     </div>
   )
 }

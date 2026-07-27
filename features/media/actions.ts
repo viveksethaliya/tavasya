@@ -5,18 +5,19 @@ import { createClient } from '@/lib/supabase/server'
 import { requireAdmin } from '@/server/auth/requireAdmin'
 import { revalidatePath } from 'next/cache'
 
-const ALLOWED_TYPES = ['image/jpeg', 'image/png', 'image/webp', 'image/svg+xml', 'image/gif']
+const ALLOWED_TYPES = ['image/jpeg', 'image/png', 'image/webp', 'image/svg+xml']
 const MAX_SIZE_BYTES = 10 * 1024 * 1024 // 10MB
 const BUCKET = 'media'
 
-export async function getMediaList() {
+export async function getMediaList(query?: string) {
   try {
     await requireAdmin()
     const supabase = await createClient()
-    const { data, error } = await supabase
-      .from('media')
-      .select('*')
-      .order('created_at', { ascending: false })
+    let qb = supabase.from('media').select('*')
+    if (query && query.trim()) {
+      qb = qb.or(`file_name.ilike.%${query.trim()}%,alt_text.ilike.%${query.trim()}%`)
+    }
+    const { data, error } = await qb.order('created_at', { ascending: false }).limit(50)
     if (error) throw error
     return { success: true, data: data ?? [] }
   } catch (error: unknown) {
@@ -27,7 +28,7 @@ export async function getMediaList() {
 
 export async function uploadMedia(formData: FormData) {
   try {
-    await requireAdmin()
+    const user = await requireAdmin()
     const file = formData.get('file') as File | null
     if (!file) return { success: false, error: { message: 'No file provided' } }
 
@@ -51,9 +52,13 @@ export async function uploadMedia(formData: FormData) {
     const { data: urlData } = supabase.storage.from(BUCKET).getPublicUrl(path)
     const publicUrl = urlData.publicUrl
 
-    // Use server client (with user session) for DB insert
-    const dbClient = await createClient()
-    const { data: mediaRow, error: dbError } = await dbClient
+    const widthStr = formData.get('width') as string | null
+    const heightStr = formData.get('height') as string | null
+    const width = widthStr ? parseInt(widthStr, 10) : null
+    const height = heightStr ? parseInt(heightStr, 10) : null
+
+    // Use admin client for DB insert to bypass RLS issues
+    const { data: mediaRow, error: dbError } = await supabase
       .from('media')
       .insert({
         file_path: path,
@@ -62,6 +67,9 @@ export async function uploadMedia(formData: FormData) {
         mime_type: file.type,
         size_bytes: file.size,
         alt_text: '',
+        uploaded_by: user.id,
+        width,
+        height,
       })
       .select('id, file_url, file_name, alt_text, file_path')
       .single()
@@ -88,8 +96,10 @@ export async function updateMediaMeta(id: string, altText: string) {
       return { success: false, error: { message: 'Alt text must be 250 characters or less' } }
     }
     const supabase = await createClient()
-    const { error } = await supabase.from('media').update({ alt_text: altText }).eq('id', id)
-    if (error) throw error
+    const { error } = await supabase.from('media').update({ alt_text: altText }).eq('id', id).select('id').single()
+    if (error) {
+      return { success: false, error: { message: 'Media not found or could not be updated' } }
+    }
     revalidatePath('/admin/media')
     return { success: true }
   } catch (error: unknown) {
@@ -108,23 +118,38 @@ export async function deleteMedia(id: string) {
     const [
       { data: productsRef },
       { data: primaryRef },
+      { data: productsOgRef },
       { data: collectionsRef },
+      { data: collectionsOgRef },
       { data: blogsRef },
+      { data: blogsOgRef },
+      { data: pagesOgRef },
       { data: settingsRef },
+      { data: settingsFaviconRef },
     ] = await Promise.all([
       supabase.from('product_images').select('product_id').eq('media_id', id).limit(5),
       supabase.from('products').select('id, name').eq('primary_image_id', id).limit(5),
+      supabase.from('products').select('id, name').eq('og_image_id', id).limit(5),
       supabase.from('collections').select('id, name').eq('image_id', id).limit(5),
+      supabase.from('collections').select('id, name').eq('og_image_id', id).limit(5),
       supabase.from('blogs').select('id, title').eq('cover_image_id', id).limit(5),
+      supabase.from('blogs').select('id, title').eq('og_image_id', id).limit(5),
+      supabase.from('pages').select('id, title').eq('og_image_id', id).limit(5),
       supabase.from('site_settings').select('id').eq('default_og_image_id', id).limit(1),
+      supabase.from('site_settings').select('id').eq('favicon_id', id).limit(1),
     ])
 
     const references: string[] = []
     if (productsRef && productsRef.length > 0) references.push(`${productsRef.length} product image gallery entries`)
     if (primaryRef && primaryRef.length > 0) references.push(`${primaryRef.length} product primary images`)
+    if (productsOgRef && productsOgRef.length > 0) references.push(`${productsOgRef.length} product OG images`)
     if (collectionsRef && collectionsRef.length > 0) references.push(`${collectionsRef.length} collection images`)
+    if (collectionsOgRef && collectionsOgRef.length > 0) references.push(`${collectionsOgRef.length} collection OG images`)
     if (blogsRef && blogsRef.length > 0) references.push(`${blogsRef.length} blog cover images`)
+    if (blogsOgRef && blogsOgRef.length > 0) references.push(`${blogsOgRef.length} blog OG images`)
+    if (pagesOgRef && pagesOgRef.length > 0) references.push(`${pagesOgRef.length} static page OG images`)
     if (settingsRef && settingsRef.length > 0) references.push('site settings default OG image')
+    if (settingsFaviconRef && settingsFaviconRef.length > 0) references.push('site settings favicon')
 
     if (references.length > 0) {
       return {
@@ -139,7 +164,8 @@ export async function deleteMedia(id: string) {
 
     // Delete from storage
     const adminClient = createAdminClient()
-    await adminClient.storage.from(BUCKET).remove([media.file_path])
+    const { error: storageError } = await adminClient.storage.from(BUCKET).remove([media.file_path])
+    if (storageError) throw storageError
 
     // Delete from DB
     const { error: dbError } = await supabase.from('media').delete().eq('id', id)

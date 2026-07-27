@@ -16,9 +16,17 @@ export default async function AdminLayout({
 
   return (
     <div className={`min-h-screen flex bg-[#F0F2F5] ${inter.className}`}>
+      <style dangerouslySetInnerHTML={{ __html: `
+        div[data-slot="dialog-content"],
+        div[data-slot="select-content"],
+        div[data-slot="dialog-overlay"],
+        section[data-sonner-toaster] {
+          font-family: ${inter.style.fontFamily} !important;
+        }
+      `}} />
       <AdminSidebar />
-      <main className="flex-grow p-6 lg:p-8 overflow-auto">
-        <div className="max-w-7xl mx-auto">
+      <main className="flex-grow p-6 lg:p-10 overflow-auto">
+        <div className="w-full">
           {children}
         </div>
       </main>

@@ -16,10 +16,10 @@ export async function getBlogs(options?: { publishedOnly?: boolean }) {
 
   if (error) {
     console.error("Error fetching blogs:", error)
-    return []
+    return { data: [], error: error.message }
   }
 
-  return data
+  return { data: data ?? [], error: null }
 }
 
 export async function getBlogById(id: string) {
@@ -31,11 +31,14 @@ export async function getBlogById(id: string) {
     .eq("id", id)
     .single()
 
-  if (error || !blog) {
-    throw new Error("Blog not found")
+  if (error) {
+    if (error.code === 'PGRST116') {
+      return { data: null, notFound: true, error: null }
+    }
+    return { data: null, notFound: false, error: error.message }
   }
 
-  return blog
+  return { data: blog, notFound: false, error: null }
 }
 
 export async function getBlogBySlug(slug: string, options?: { publishedOnly?: boolean }) {

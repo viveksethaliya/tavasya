@@ -32,10 +32,11 @@ export function PublicHeader() {
           <Link href="/" className="-m-1.5 p-1.5 flex items-center gap-2">
             <span className="sr-only">Tavasya Machine Solutions</span>
             <div className="relative h-10 w-40">
-              <Image 
-                src="/Logo-E10.png"
+              <Image
+                src="/Logo-E11.png"
                 alt="Tavasya Logo"
                 fill
+                sizes="160px"
                 className="object-contain object-left"
                 priority
               />
@@ -84,10 +85,11 @@ export function PublicHeader() {
               <Link href="/" className="-m-1.5 p-1.5" onClick={() => setMobileMenuOpen(false)}>
                 <span className="sr-only">Tavasya Machine Solutions</span>
                 <div className="relative h-8 w-32">
-                  <Image 
+                  <Image
                     src="/Logo-E10.png"
                     alt="Tavasya Logo"
                     fill
+                    sizes="128px"
                     className="object-contain object-left"
                   />
                 </div>

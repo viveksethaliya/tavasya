@@ -1,11 +1,10 @@
 import Image from "next/image"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
-import { 
-  RiStarSLine, 
-  RiCheckDoubleLine, 
-  RiShieldCheckLine, 
-  RiPlantLine,
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogDescription } from "@/components/ui/dialog"
+import {
+  RiStarSLine,
+  RiCheckDoubleLine,
   RiArrowRightLine
 } from "@remixicon/react"
 
@@ -24,7 +23,7 @@ export default function HomePage() {
             priority
           />
         </div>
-        
+
         {/* Content */}
         <div className="relative max-w-7xl mx-auto px-6 py-24 sm:py-32 lg:px-8 lg:py-40">
           <div className="max-w-2xl">
@@ -52,27 +51,25 @@ export default function HomePage() {
       <div className="bg-slate-50 py-24 sm:py-32">
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
           <div className="mx-auto max-w-2xl lg:text-center">
-            <h2 className="text-base font-semibold leading-7 text-[#F3BA43]">Built for the Future</h2>
             <p className="mt-2 text-3xl font-bold tracking-tight text-[#324E64] sm:text-4xl">
-              Every solution we engineer is built to reduce waste, enhance food safety, and create a more sustainable path for the agro-food industry.
+              Every solution we engineer is built to reduce waste, enhance food safety, and create a more sustainable path for the agro-food industry
             </p>
           </div>
           <div className="mx-auto mt-16 max-w-2xl sm:mt-20 lg:mt-24 lg:max-w-none">
             <dl className="grid max-w-xl grid-cols-1 gap-x-8 gap-y-16 lg:max-w-none lg:grid-cols-4">
               {[
-                { name: 'Cereal & Grain Cleaning', desc: 'Precision removal of dust, chaff, and impurities.', icon: RiPlantLine },
-                { name: 'Grading & Sorting', desc: 'Accurate classification by size, density, and weight.', icon: RiCheckDoubleLine },
-                { name: 'Elevators & Conveyors', desc: 'Reliable and safe material handling systems.', icon: RiArrowRightLine },
-                { name: 'Peanut Husk Separator', desc: 'Efficient husk and shell removal for peanuts.', icon: RiShieldCheckLine },
+                { name: 'Cereal & Grain Cleaning', icon: '/icons/image.png' },
+                { name: 'Grading & Sorting Machines', icon: '/icons/image1.png' },
+                { name: 'Elevators & Conveyors', icon: '/icons/image3.png' },
+                { name: 'Peanut Husk Separator', icon: '/icons/image2.png' },
               ].map((feature) => (
-                <div key={feature.name} className="flex flex-col">
-                  <dt className="flex items-center gap-x-3 text-base font-semibold leading-7 text-[#324E64]">
-                    <feature.icon className="h-5 w-5 flex-none text-[#F3BA43]" aria-hidden="true" />
+                <div key={feature.name} className="flex flex-col items-center lg:items-start text-center lg:text-left">
+                  <dt className="flex flex-col items-center lg:items-start gap-y-4 text-lg font-semibold leading-7 text-[#324E64]">
+                    <div className="w-16 h-16 rounded-2xl bg-white border border-slate-100 shadow-sm flex items-center justify-center p-3 relative overflow-hidden">
+                      <Image src={feature.icon} alt={feature.name} fill className="object-contain p-2" />
+                    </div>
                     {feature.name}
                   </dt>
-                  <dd className="mt-4 flex flex-auto flex-col text-base leading-7 text-slate-600">
-                    <p className="flex-auto">{feature.desc}</p>
-                  </dd>
                 </div>
               ))}
             </dl>
@@ -88,11 +85,11 @@ export default function HomePage() {
               <div className="lg:max-w-lg">
                 <h2 className="text-base font-semibold leading-7 text-[#F3BA43]">Expertise</h2>
                 <p className="mt-2 text-3xl font-bold tracking-tight text-[#324E64] sm:text-4xl">35+ Years of Engineering Excellence</p>
-                <p className="mt-6 text-lg leading-8 text-slate-600">
+                <div className="mt-10 max-w-xl text-base leading-7 text-slate-600">
                   With decades of expertise in agro-food engineering, we bring trusted experience and proven innovation to every solution we create. Our machines are built to handle groundnuts, food grains, pulses, oilseeds, and spices/condiments, ensuring cleaner produce, safer operations, and lasting performance.
-                </p>
-                
-                <h3 className="mt-16 text-2xl font-bold tracking-tight text-[#324E64]">What We Stand For</h3>
+                </div>
+
+                <h3 className="mt-8 text-2xl font-bold tracking-tight text-[#324E64]">What We Stand For</h3>
                 <p className="mt-4 text-base leading-7 text-slate-600">
                   Our commitment lies in delivering trust through technology. Each of our solutions is crafted to ensure purity, performance, and perfection. redefining quality standards for the global food and FMCG industries.
                 </p>
@@ -112,7 +109,7 @@ export default function HomePage() {
               </div>
             </div>
             <div className="bg-[#1E3448] rounded-3xl p-8 sm:p-10 lg:p-12 shadow-2xl">
-              <h3 className="text-xl font-semibold leading-7 text-white mb-8">What Our Clients Say</h3>
+              <h3 className="text-xl font-semibold leading-7 text-white mb-8">Client Reviews</h3>
               <div className="space-y-8">
                 {[
                   {
@@ -160,32 +157,50 @@ export default function HomePage() {
           <div className="mx-auto max-w-2xl lg:text-center">
             <h2 className="text-3xl font-bold tracking-tight text-[#324E64] sm:text-4xl">Our Company Features</h2>
             <p className="mt-6 text-lg leading-8 text-slate-600">
-              At Tavasya Machine Solutions, we combine engineering expertise with innovation to redefine the standards of agro-food cleaning and processing. From design to installation, every step reflects our commitment to quality, precision, and sustainability.
+              At Tavasya Machine Solutions, we combine engineering expertise with innovation to redefine the standards of agro-food cleaning and processing.<br />
+              From design to installation, every step reflects our commitment to quality, precision, and sustainability.
             </p>
           </div>
           <div className="mx-auto mt-16 max-w-2xl sm:mt-20 lg:mt-24 lg:max-w-none">
             <dl className="grid max-w-xl grid-cols-1 gap-x-8 gap-y-16 lg:max-w-none lg:grid-cols-3">
-              <div className="flex flex-col bg-white rounded-2xl shadow-sm border border-slate-100 p-8">
-                <dt className="text-xl font-bold leading-7 text-[#324E64]">Advanced Cleaning Technology</dt>
-                <dd className="mt-4 flex flex-auto flex-col text-base leading-7 text-slate-600">
-                  <p className="flex-auto font-medium text-slate-900">Delivering next-generation cleaning systems designed for accuracy, efficiency, and reliability.</p>
-                  <p className="mt-4">Our machines are engineered using advanced air, vibration, and grading mechanisms that ensure the removal of dust, stones, and impurities with exceptional precision. Whether for groundnuts or other agro-produce, Tavasya’s cleaning systems guarantee consistent results, minimal wastage, and superior output quality.</p>
-                </dd>
-              </div>
-              <div className="flex flex-col bg-white rounded-2xl shadow-sm border border-slate-100 p-8">
-                <dt className="text-xl font-bold leading-7 text-[#324E64]">End-to-End Engineering Excellence</dt>
-                <dd className="mt-4 flex flex-auto flex-col text-base leading-7 text-slate-600">
-                  <p className="flex-auto font-medium text-slate-900">From concept to commissioning, we provide fully integrated solutions tailored to your needs.</p>
-                  <p className="mt-4">Our expert team ensures that every machine fits seamlessly into your workflow. With durable construction, user-friendly operation, and continuous performance monitoring, we help your facility achieve long-term productivity and peace of mind.</p>
-                </dd>
-              </div>
-              <div className="flex flex-col bg-white rounded-2xl shadow-sm border border-slate-100 p-8">
-                <dt className="text-xl font-bold leading-7 text-[#324E64]">Sustainability & Customer Commitment</dt>
-                <dd className="mt-4 flex flex-auto flex-col text-base leading-7 text-slate-600">
-                  <p className="flex-auto font-medium text-slate-900">Innovating responsibly to create lasting value for customers and the planet.</p>
-                  <p className="mt-4">Our focus goes beyond building machines, we create solutions that deliver long-term value and consistent performance. Each system is engineered for reliability, precision, and ease of operation, helping our customers achieve higher productivity and uncompromised quality.</p>
-                </dd>
-              </div>
+              {[
+                {
+                  title: "Advanced Cleaning Technology",
+                  sentence: "Delivering next-generation cleaning systems designed for accuracy, efficiency, and reliability.",
+                  readMore: "Our machines are engineered using advanced air, vibration, and grading mechanisms that ensure the removal of dust, stones, and impurities with exceptional precision. Whether for groundnuts or other agro-produce, Tavasya’s cleaning systems guarantee consistent results, minimal wastage, and superior output quality helping you meet modern food safety and production standards."
+                },
+                {
+                  title: "End-to-End Engineering Excellence",
+                  sentence: "From concept to commissioning, we provide fully integrated solutions tailored to your needs.",
+                  readMore: "Our expert team ensures that every machine fits seamlessly into your workflow. With durable construction, user-friendly operation, and continuous performance monitoring, we help your facility achieve long-term productivity and peace of mind."
+                },
+                {
+                  title: "Sustainability & Customer Commitment",
+                  sentence: "Innovating responsibly to create lasting value for customers and the planet.",
+                  readMore: "Our focus goes beyond building machines, we create solutions that deliver long-term value and consistent performance. Each system is engineered for reliability, precision, and ease of operation, helping our customers achieve higher productivity and uncompromised quality."
+                }
+              ].map((feature, idx) => (
+                <div key={idx} className="flex flex-col bg-white rounded-2xl shadow-sm border border-slate-100 p-8">
+                  <dt className="text-xl font-bold leading-7 text-[#324E64]">{feature.title}</dt>
+                  <dd className="mt-4 flex flex-auto flex-col text-base leading-7 text-slate-600">
+                    <p className="flex-auto font-medium text-slate-900">{feature.sentence}</p>
+
+                    <Dialog>
+                      <DialogTrigger className="mt-6 text-sm font-semibold text-[#F3BA43] hover:text-[#324E64] transition-colors text-left focus:outline-none">
+                        Read More &rarr;
+                      </DialogTrigger>
+                      <DialogContent className="sm:max-w-md">
+                        <DialogHeader>
+                          <DialogTitle className="text-xl text-[#324E64]">{feature.title}</DialogTitle>
+                        </DialogHeader>
+                        <div className="mt-4 text-base leading-7 text-slate-600">
+                          {feature.readMore}
+                        </div>
+                      </DialogContent>
+                    </Dialog>
+                  </dd>
+                </div>
+              ))}
             </dl>
           </div>
         </div>

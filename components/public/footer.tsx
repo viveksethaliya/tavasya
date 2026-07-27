@@ -11,12 +11,6 @@ import {
 } from "@remixicon/react"
 
 const navigation = {
-  solutions: [
-    { name: 'Cereal & Grain Cleaning', href: '/collections/cereal-grain' },
-    { name: 'Grading & Sorting', href: '/collections/grading' },
-    { name: 'Elevators & Conveyors', href: '/collections/conveyors' },
-    { name: 'Peanut Husk Separator', href: '/collections/peanut-husk' },
-  ],
   company: [
     { name: 'About Us', href: '/about' },
     { name: 'Blog', href: '/blog' },
@@ -35,7 +29,7 @@ const navigation = {
     },
     {
       name: 'LinkedIn',
-      href: 'https://www.linkedin.com/company/108789355/admin/dashboard/',
+      href: 'https://www.linkedin.com/company/tavasya-machine-solutions/',
       icon: RiLinkedinBoxLine,
     },
     {
@@ -60,6 +54,7 @@ export function PublicFooter() {
                 src="/Logo-E10.png"
                 alt="Tavasya Machine Solutions"
                 fill
+                sizes="192px"
                 className="object-contain object-left invert brightness-0"
               />
             </div>
@@ -77,19 +72,7 @@ export function PublicFooter() {
           </div>
           <div className="mt-16 grid grid-cols-2 gap-8 xl:col-span-2 xl:mt-0">
             <div className="md:grid md:grid-cols-2 md:gap-8">
-              <div>
-                <h3 className="text-sm font-semibold leading-6 text-white">Solutions</h3>
-                <ul role="list" className="mt-6 space-y-4">
-                  {navigation.solutions.map((item) => (
-                    <li key={item.name}>
-                      <Link href={item.href} className="text-sm leading-6 hover:text-white transition-colors">
-                        {item.name}
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-              <div className="mt-10 md:mt-0">
+              <div className="mt-10 md:mt-0 col-span-2">
                 <h3 className="text-sm font-semibold leading-6 text-white">Company</h3>
                 <ul role="list" className="mt-6 space-y-4">
                   {navigation.company.map((item) => (
@@ -111,16 +94,20 @@ export function PublicFooter() {
                     <span>Office No. 513, Viral Hights, Near Ayodhya Chowk, 150 Feet Ring Rd, Rajkot, 360006</span>
                   </li>
                   <li className="flex items-center gap-3 text-sm leading-6">
+                    <RiMailLine className="h-5 w-5 flex-shrink-0 text-[#F3BA43]" />
+                    <span>Official E mail I’d: <a href="mailto:info@tavasyamachines.com" className="hover:text-white transition-colors">info@tavasyamachines.com</a></span>
+                  </li>
+                  <li className="flex items-center gap-3 text-sm leading-6">
                     <RiPhoneLine className="h-5 w-5 flex-shrink-0 text-[#F3BA43]" />
-                    <a href="tel:+917567585555" className="hover:text-white transition-colors">+91 75675 85555</a>
+                    <span>Phone Number: </span>
+                  </li>
+                  <li className="flex items-center gap-3 text-sm leading-6">
+                    <RiPhoneLine className="h-5 w-5 flex-shrink-0 text-[#F3BA43]" />
+                    <span>Talk to an Expert: <a href="tel:+917567585555" className="hover:text-white transition-colors">+91 75675 85555</a></span>
                   </li>
                   <li className="flex items-center gap-3 text-sm leading-6">
                     <RiMailLine className="h-5 w-5 flex-shrink-0 text-[#F3BA43]" />
-                    <a href="mailto:info@tavasyamachines.com" className="hover:text-white transition-colors">info@tavasyamachines.com</a>
-                  </li>
-                  <li className="flex items-center gap-3 text-sm leading-6">
-                    <RiMailLine className="h-5 w-5 flex-shrink-0 text-[#F3BA43]" />
-                    <a href="mailto:tavasyamachines@gmail.com" className="hover:text-white transition-colors">tavasyamachines@gmail.com</a>
+                    <span>Email Our Team: <a href="mailto:tavasyamachines@gmail.com" className="hover:text-white transition-colors">tavasyamachines@gmail.com</a></span>
                   </li>
                 </ul>
               </div>

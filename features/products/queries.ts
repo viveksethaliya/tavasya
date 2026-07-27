@@ -20,8 +20,14 @@ export async function getProductById(id: string) {
   
   const { data, error } = await supabase.from("products").select("*").eq("id", id).single()
   
-  if (error) throw error
-  return data
+  if (error) {
+    // PGRST116 = no rows returned — the product genuinely does not exist
+    if (error.code === 'PGRST116') {
+      return { data: null, notFound: true, error: null }
+    }
+    return { data: null, notFound: false, error: error.message }
+  }
+  return { data, notFound: false, error: null }
 }
 
 export async function getProductBySlug(slug: string, options?: { publishedOnly?: boolean }) {

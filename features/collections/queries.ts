@@ -20,14 +20,18 @@ export async function getCollections(options?: { publishedOnly?: boolean }) {
 
   if (error) {
     console.error("Error fetching collections:", error)
-    return []
+    return { data: [], error: error.message }
   }
 
-  return data.map(collection => ({
-    ...collection,
-    product_count: collection.collection_products?.[0]?.count || 0
-  }))
+  return {
+    data: data.map(collection => ({
+      ...collection,
+      product_count: collection.collection_products?.[0]?.count || 0
+    })),
+    error: null,
+  }
 }
+
 
 export async function getCollectionById(id: string) {
   const supabase = await createClient()
@@ -38,8 +42,16 @@ export async function getCollectionById(id: string) {
     .eq("id", id)
     .single()
 
-  if (error || !collection) {
-    throw new Error("Collection not found")
+  if (error) {
+    // PGRST116 = no rows returned — the collection genuinely does not exist
+    if (error.code === 'PGRST116') {
+      return { data: null, notFound: true, error: null }
+    }
+    return { data: null, notFound: false, error: error.message }
+  }
+
+  if (!collection) {
+    return { data: null, notFound: true, error: null }
   }
 
   const { data: collectionProducts } = await supabase
@@ -49,8 +61,12 @@ export async function getCollectionById(id: string) {
     .order("sort_order", { ascending: true })
 
   return {
-    ...collection,
-    products: collectionProducts?.map(cp => cp.product_id) || []
+    data: {
+      ...collection,
+      products: collectionProducts?.map(cp => cp.product_id) || []
+    },
+    notFound: false,
+    error: null,
   }
 }
 

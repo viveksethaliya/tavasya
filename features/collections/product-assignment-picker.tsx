@@ -39,7 +39,14 @@ function SortableItem({ product, onRemove }: { product: ProductItem; onRemove: (
         <p className="font-medium text-sm truncate">{product.name}</p>
         {product.sku && <p className="text-xs text-muted-foreground">{product.sku}</p>}
       </div>
-      <Button type="button" variant="ghost" size="icon" onClick={() => onRemove(product.id)} className="text-muted-foreground hover:text-destructive">
+      <Button
+        type="button"
+        variant="ghost"
+        size="icon"
+        onClick={() => onRemove(product.id)}
+        aria-label={`Remove ${product.name}`}
+        className="text-muted-foreground hover:text-destructive"
+      >
         <RiCloseLine className="w-4 h-4" />
       </Button>
     </div>
@@ -137,15 +144,20 @@ export function ProductAssignmentPicker({ value = [], onChange }: ProductAssignm
         
         {/* Search Results Dropdown */}
         {searchQuery.length >= 2 && (
-          <div className="absolute z-10 w-full mt-1 bg-popover border rounded-md shadow-lg max-h-60 overflow-auto">
+          <div className="absolute z-10 w-full mt-1 bg-popover border rounded-md shadow-lg max-h-60 overflow-auto" role="listbox" aria-label="Search results">
             {isSearching ? (
               <div className="p-3 text-sm text-muted-foreground">Searching...</div>
             ) : searchResults.length > 0 ? (
               searchResults.map(product => (
-                <div 
-                  key={product.id} 
+                <div
+                  key={product.id}
+                  role="option"
+                  aria-selected={items.some(i => i.id === product.id)}
+                  aria-label={`Add ${product.name}${product.sku ? ` (${product.sku})` : ''}`}
+                  tabIndex={0}
                   className="flex items-center justify-between p-3 hover:bg-muted cursor-pointer border-b last:border-0"
                   onClick={() => handleAddProduct(product)}
+                  onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); handleAddProduct(product) } }}
                 >
                   <div>
                     <p className="font-medium text-sm">{product.name}</p>

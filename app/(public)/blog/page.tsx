@@ -6,11 +6,15 @@ import { format } from "date-fns"
 import { RiArticleLine } from "@remixicon/react"
 
 export default async function BlogPage() {
-  const blogs = await getBlogs({ publishedOnly: true })
+  const { data: blogs, error } = await getBlogs({ publishedOnly: true })
+
+  // If there's an error, we can gracefully render the empty state or an error state.
+  // The existing empty state handles length === 0, so we default to an empty array on error.
+  const validBlogs = error ? [] : blogs;
 
   // Resolve cover images if available
   const blogsWithImages = await Promise.all(
-    blogs.map(async (blog) => {
+    validBlogs.map(async (blog) => {
       let imageUrl = null
       if (blog.cover_image_id) {
         try {

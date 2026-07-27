@@ -5,8 +5,12 @@ import { Input } from '@/components/ui/input'
 import { IconButton } from '@/components/ui/icon-button'
 import { Button } from '@/components/ui/button'
 import { RiDeleteBinLine, RiAddLine, RiDraggable } from '@remixicon/react'
+import { DndContext, closestCenter, KeyboardSensor, PointerSensor, useSensor, useSensors, DragEndEvent } from '@dnd-kit/core'
+import { arrayMove, SortableContext, sortableKeyboardCoordinates, verticalListSortingStrategy, useSortable } from '@dnd-kit/sortable'
+import { CSS } from '@dnd-kit/utilities'
 
 export interface Feature {
+  _clientId?: string
   id?: string
   feature_text: string
 }
@@ -16,9 +20,65 @@ interface FeatureEditorProps {
   onChange: (features: Feature[]) => void
 }
 
+
+interface SortableFeatureRowProps {
+  feature: Feature;
+  index: number;
+  updateRow: (i: number, text: string) => void;
+  removeRow: (i: number) => void;
+}
+
+function SortableFeatureRow({ feature, index, updateRow, removeRow }: SortableFeatureRowProps) {
+  const id = feature.id || feature._clientId || index.toString();
+  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id });
+
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+    zIndex: isDragging ? 10 : 1,
+    opacity: isDragging ? 0.8 : 1,
+  };
+
+  return (
+    <div ref={setNodeRef} style={style} className="flex items-center gap-2">
+      <div {...attributes} {...listeners} className="cursor-grab p-1 hover:bg-slate-100 rounded">
+        <RiDraggable className="h-4 w-4 text-slate-300 flex-shrink-0" />
+      </div>
+      <span className="text-[#F3BA43] font-bold text-lg leading-none flex-shrink-0">•</span>
+      <Input
+        placeholder="e.g. High-speed precision spindle"
+        value={feature.feature_text}
+        onChange={(e) => updateRow(index, e.target.value)}
+        className="h-9 text-sm flex-1"
+      />
+      <IconButton
+        aria-label="Remove feature"
+        variant="destructive"
+        icon={<RiDeleteBinLine className="h-3.5 w-3.5" />}
+        className="h-9 w-9 flex-shrink-0"
+        onClick={() => removeRow(index)}
+      />
+    </div>
+  );
+}
+
 export function FeatureEditor({ value, onChange }: FeatureEditorProps) {
-  const addRow = () => onChange([...value, { feature_text: '' }])
+  const addRow = () => onChange([...value, { feature_text: '', _clientId: Math.random().toString(36).substr(2, 9) }])
   const removeRow = (index: number) => onChange(value.filter((_, i) => i !== index))
+    const sensors = useSensors(
+    useSensor(PointerSensor),
+    useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates })
+  )
+
+  const handleDragEnd = (event: DragEndEvent) => {
+    const { active, over } = event
+    if (over && active.id !== over.id) {
+      const oldIndex = value.findIndex((f, i) => (f.id || f._clientId || i.toString()) === active.id)
+      const newIndex = value.findIndex((f, i) => (f.id || f._clientId || i.toString()) === over.id)
+      onChange(arrayMove(value, oldIndex, newIndex))
+    }
+  }
+
   const updateRow = (index: number, text: string) => {
     const updated = [...value]
     updated[index] = { ...updated[index], feature_text: text }

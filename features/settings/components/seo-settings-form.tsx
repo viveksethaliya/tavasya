@@ -1,6 +1,7 @@
 'use client'
 
 import React from 'react'
+import { useRouter } from 'next/navigation'
 import { updateSeoSettings, updatePageSeo } from '../actions'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -16,7 +17,7 @@ interface SiteSettings {
   default_meta_description: string | null
   default_robots: string | null
   twitter_handle: string | null
-  organization_schema_json: string | null
+  organization_schema_json: Record<string, any> | null
   default_og_image_id: string | null
   favicon_id: string | null
 }
@@ -28,6 +29,7 @@ interface Page {
   canonical_url: string | null
   robots: string | null
   keywords: string | null
+  og_image_id: string | null
 }
 
 interface SeoSettingsFormProps {
@@ -44,6 +46,7 @@ const PAGE_LABELS: Record<string, string> = {
 }
 
 export function SeoSettingsForm({ settings, pages }: SeoSettingsFormProps) {
+  const router = useRouter()
   const [pending, setPending] = React.useState(false)
   const [ogImageId, setOgImageId] = React.useState<string | null>(settings?.default_og_image_id ?? null)
   const [faviconId, setFaviconId] = React.useState<string | null>(settings?.favicon_id ?? null)
@@ -55,8 +58,12 @@ export function SeoSettingsForm({ settings, pages }: SeoSettingsFormProps) {
     if (ogImageId) formData.set('default_og_image_id', ogImageId)
     if (faviconId) formData.set('favicon_id', faviconId)
     const res = await updateSeoSettings(formData)
-    if (res.success) toast.success('SEO settings saved')
-    else toast.error(res.error?.message ?? 'Failed to save')
+    if (res.success) {
+      toast.success('SEO settings saved')
+      router.refresh()
+    } else {
+      toast.error(res.error?.message ?? 'Failed to save')
+    }
     setPending(false)
   }
 
@@ -122,7 +129,7 @@ export function SeoSettingsForm({ settings, pages }: SeoSettingsFormProps) {
             <Textarea
               id="organization_schema_json"
               name="organization_schema_json"
-              defaultValue={settings?.organization_schema_json ?? ''}
+              defaultValue={settings?.organization_schema_json ? JSON.stringify(settings.organization_schema_json, null, 2) : ''}
               placeholder='{"@type": "Organization", "name": "Meridian Machine Works", ...}'
               className="font-mono text-xs min-h-[120px]"
             />
@@ -149,7 +156,9 @@ export function SeoSettingsForm({ settings, pages }: SeoSettingsFormProps) {
 }
 
 function PageSeoForm({ routeKey, page }: { routeKey: string; page: Page | null }) {
+  const router = useRouter()
   const [pending, setPending] = React.useState(false)
+  const [ogImageId, setOgImageId] = React.useState<string | null>(page?.og_image_id ?? null)
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
@@ -161,9 +170,14 @@ function PageSeoForm({ routeKey, page }: { routeKey: string; page: Page | null }
       canonical_url: fd.get('canonical_url') as string || undefined,
       robots: fd.get('robots') as string || undefined,
       keywords: fd.get('keywords') as string || undefined,
+      og_image_id: ogImageId,
     })
-    if (res.success) toast.success(`${PAGE_LABELS[routeKey]} SEO saved`)
-    else toast.error(res.error?.message ?? 'Failed to save')
+    if (res.success) {
+      toast.success(`${PAGE_LABELS[routeKey]} SEO saved`)
+      router.refresh()
+    } else {
+      toast.error(res.error?.message ?? 'Failed to save')
+    }
     setPending(false)
   }
 
@@ -197,6 +211,11 @@ function PageSeoForm({ routeKey, page }: { routeKey: string; page: Page | null }
           <Label htmlFor={`keywords_${routeKey}`}>Keywords</Label>
           <Input id={`keywords_${routeKey}`} name="keywords" defaultValue={page?.keywords ?? ''} placeholder="comma, separated" />
         </div>
+      </div>
+      <div className="space-y-2">
+        <Label>OG Image</Label>
+        <MediaPickerModal value={ogImageId} onChange={setOgImageId} />
+        <p className="text-xs text-slate-400">Override the global default OG image for this specific page.</p>
       </div>
       <Button type="submit" disabled={pending} className="bg-[#324E64] hover:bg-[#324E64]/90">
         {pending ? 'Saving...' : `Save ${PAGE_LABELS[routeKey]} SEO`}

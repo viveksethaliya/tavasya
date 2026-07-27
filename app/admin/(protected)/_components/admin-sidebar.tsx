@@ -14,10 +14,12 @@ import {
   RiLogoutBoxLine,
   RiMenuLine,
   RiCloseLine,
+  RiMessage3Line,
 } from '@remixicon/react'
 
 const navItems = [
   { label: 'Dashboard', href: '/admin', icon: RiDashboardLine, exact: true },
+  { label: 'Inquiries', href: '/admin/inquiries', icon: RiMessage3Line },
   { label: 'Products', href: '/admin/products', icon: RiBox3Line },
   { label: 'Collections', href: '/admin/collections', icon: RiStackLine },
   { label: 'Blog', href: '/admin/blog', icon: RiArticleLine },

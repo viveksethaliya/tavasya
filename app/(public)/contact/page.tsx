@@ -51,8 +51,20 @@ export default function ContactPage() {
                   <RiMapPinLine className="h-7 w-6 text-[#F3BA43]" aria-hidden="true" />
                 </dt>
                 <dd>
-                  Office No. 513, Viral Hights<br />
-                  Near Ayodhya Chowk, 150 Feet Ring Rd, Rajkot, 360006
+                  <span className="block font-semibold text-[#324E64]">Address:</span>
+                  Office No. 513, Viral Hights, Near Ayodhya Chowk, 150 Feet Ring Rd, Rajkot, 360006
+                </dd>
+              </div>
+              <div className="flex gap-x-4">
+                <dt className="flex-none">
+                  <span className="sr-only">Email</span>
+                  <RiMailLine className="h-7 w-6 text-[#F3BA43]" aria-hidden="true" />
+                </dt>
+                <dd>
+                  <span className="block font-semibold text-[#324E64]">Official E mail I’d:</span>
+                  <a className="hover:text-[#324E64] font-medium" href="mailto:info@tavasyamachines.com">
+                    info@tavasyamachines.com
+                  </a>
                 </dd>
               </div>
               <div className="flex gap-x-4">
@@ -61,6 +73,17 @@ export default function ContactPage() {
                   <RiPhoneLine className="h-7 w-6 text-[#F3BA43]" aria-hidden="true" />
                 </dt>
                 <dd>
+                  <span className="block font-semibold text-[#324E64]">Phone Number:</span>
+                  {/* Keep the number place blank for now */}
+                </dd>
+              </div>
+              <div className="flex gap-x-4">
+                <dt className="flex-none">
+                  <span className="sr-only">Telephone</span>
+                  <RiPhoneLine className="h-7 w-6 text-[#F3BA43]" aria-hidden="true" />
+                </dt>
+                <dd>
+                  <span className="block font-semibold text-[#324E64]">Talk to an Expert:</span>
                   <a className="hover:text-[#324E64] font-medium" href="tel:+917567585555">
                     +91 75675 85555
                   </a>
@@ -72,18 +95,7 @@ export default function ContactPage() {
                   <RiMailLine className="h-7 w-6 text-[#F3BA43]" aria-hidden="true" />
                 </dt>
                 <dd>
-                  <a className="hover:text-[#324E64] font-medium" href="mailto:info@tavasyamachines.com">
-                    info@tavasyamachines.com
-                  </a>
-                </dd>
-              </div>
-              <div className="flex gap-x-4">
-                <dt className="flex-none">
-                  <span className="sr-only">Email</span>
-                  <RiMailLine className="h-7 w-6 text-[#F3BA43]" aria-hidden="true" />
-                </dt>
-                <dd>
-                  <span className="block font-semibold">Email Our Team:</span>
+                  <span className="block font-semibold text-[#324E64]">Email Our Team:</span>
                   <a className="hover:text-[#324E64] font-medium" href="mailto:tavasyamachines@gmail.com">
                     tavasyamachines@gmail.com
                   </a>

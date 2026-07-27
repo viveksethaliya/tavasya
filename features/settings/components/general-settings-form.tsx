@@ -64,6 +64,8 @@ export function GeneralSettingsForm({ settings }: { settings: SiteSettings | nul
             { key: 'linkedin', label: 'LinkedIn', placeholder: 'https://linkedin.com/company/...' },
             { key: 'youtube', label: 'YouTube', placeholder: 'https://youtube.com/@...' },
             { key: 'twitter', label: 'Twitter / X', placeholder: 'https://twitter.com/...' },
+            { key: 'instagram', label: 'Instagram', placeholder: 'https://instagram.com/...' },
+            { key: 'facebook', label: 'Facebook', placeholder: 'https://facebook.com/...' },
           ].map((s) => (
             <div key={s.key} className="space-y-2">
               <Label htmlFor={`social_${s.key}`}>{s.label}</Label>

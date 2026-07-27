@@ -1,3 +1,4 @@
+import Image from "next/image"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { RiSettings4Line, RiTeamLine, RiShieldStarLine } from "@remixicon/react"
@@ -39,8 +40,31 @@ export default function AboutPage() {
         </div>
       </div>
 
+      {/* Solutions / Points Section */}
+      <div className="bg-slate-50 py-24 sm:py-32">
+        <div className="mx-auto max-w-7xl px-6 lg:px-8">
+          <dl className="grid max-w-xl grid-cols-1 gap-x-8 gap-y-16 lg:max-w-none lg:grid-cols-4">
+            {[
+              { name: 'Cereal & Grain Cleaning', icon: '/icons/image.png' },
+              { name: 'Grading & Sorting Machines', icon: '/icons/image copy.png' },
+              { name: 'Elevators & Conveyors', icon: '/icons/image copy 2.png' },
+              { name: 'Peanut Husk Separator', icon: '/icons/image copy 3.png' },
+            ].map((feature) => (
+              <div key={feature.name} className="flex flex-col items-center lg:items-start text-center lg:text-left">
+                <dt className="flex flex-col items-center lg:items-start gap-y-4 text-lg font-semibold leading-7 text-[#324E64]">
+                  <div className="w-16 h-16 rounded-2xl bg-white border border-slate-100 shadow-sm flex items-center justify-center p-3 relative overflow-hidden">
+                    <Image src={feature.icon} alt={feature.name} fill className="object-contain p-2" />
+                  </div>
+                  {feature.name}
+                </dt>
+              </div>
+            ))}
+          </dl>
+        </div>
+      </div>
+
       {/* Content Section */}
-      <div className="py-24 sm:py-32">
+      <div className="py-24 sm:py-32 bg-white">
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
           <div className="mx-auto max-w-2xl lg:max-w-none">
             <div className="grid grid-cols-1 gap-y-16 lg:grid-cols-2 lg:gap-x-16 lg:gap-y-0">
@@ -95,12 +119,11 @@ export default function AboutPage() {
             <p className="mx-auto mt-6 max-w-xl text-lg leading-8 text-slate-300">
               Have questions? Want to see how Tavasya machines can elevate your operations? Drop us a message, request a quote, or visit our facility.
             </p>
-            <div className="mt-10 flex items-center justify-center gap-x-6">
-              <Link href="/contact">
-                <Button size="lg" className="bg-[#F3BA43] text-[#324E64] hover:bg-[#F3BA43]/90 font-bold px-8 shadow-sm">
-                  Contact Us
-                </Button>
-              </Link>
+            <div className="mt-10 max-w-xl mx-auto text-slate-300 text-left space-y-4 bg-white/5 p-6 rounded-2xl border border-white/10">
+              <h3 className="text-xl font-bold text-white mb-6">Contact Us:</h3>
+              <p><strong className="text-white">Phone:</strong> +91 XXXXXXXXXX</p>
+              <p><strong className="text-white">Email:</strong> info@tavasyamachines.com</p>
+              <p><strong className="text-white">Address:</strong> Office No. 513, Viral Hights, Near Ayodhya Chowk, 150 Feet Ring Rd, Rajkot, 360006</p>
             </div>
           </div>
         </div>
