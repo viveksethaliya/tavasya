@@ -70,22 +70,32 @@ export function BlogForm({ initialData }: BlogFormProps) {
 
       setSaveStatus("saving")
       const currentId = blogIdRef.current
-      const action = currentId ? updateBlog.bind(null, currentId) : createBlog
       
       try {
-        const result = await action(data)
-        if (result.success) {
-          setSaveStatus("saved")
-          currentForm.reset(data, { keepValues: true })
-          if (!currentId && result.data?.id) {
+        if (currentId) {
+          const result = await updateBlog(currentId, data)
+          if (result.success) {
+            setSaveStatus("saved")
+            currentForm.reset(data, { keepValues: true })
+            setTimeout(() => {
+              setSaveStatus(prev => prev === "saved" ? "idle" : prev)
+            }, 3000)
+          } else {
+            setSaveStatus("error")
+          }
+        } else {
+          const result = await createBlog(data)
+          if (result.success && result.data) {
+            setSaveStatus("saved")
+            currentForm.reset(data, { keepValues: true })
             setBlogId(result.data.id)
             window.history.replaceState(null, '', `/admin/blog/${result.data.id}/edit`)
+            setTimeout(() => {
+              setSaveStatus(prev => prev === "saved" ? "idle" : prev)
+            }, 3000)
+          } else {
+            setSaveStatus("error")
           }
-          setTimeout(() => {
-            setSaveStatus(prev => prev === "saved" ? "idle" : prev)
-          }, 3000)
-        } else {
-          setSaveStatus("error")
         }
       } catch (err) {
         setSaveStatus("error")

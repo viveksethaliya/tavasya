@@ -8,7 +8,7 @@ export const blogSchema = z.object({
   cover_image_id: z.string().uuid().optional().nullable().or(z.literal("")),
   author_name: z.string().max(100).optional().nullable(),
   status: z.enum(["draft", "published"]),
-  published_at: z.string().datetime({ message: "Invalid date-time format" }).optional().nullable().or(z.literal("")).transform(v => v === "" ? null : v),
+  published_at: z.string().optional().nullable().or(z.literal("")),
   seo_title: z.string().max(100).optional().nullable(),
   meta_description: z.string().max(255).optional().nullable(),
   canonical_url: z.string().url().optional().nullable().or(z.literal("")),

@@ -10,7 +10,9 @@ export function StatusSelect({ id, currentStatus }: { id: string, currentStatus:
   const [isPending, startTransition] = useTransition()
   const [status, setStatus] = React.useState(currentStatus)
 
-  const handleStatusChange = (newStatus: 'new' | 'read' | 'replied' | 'archived') => {
+  const handleStatusChange = (val: string | null) => {
+    if (!val) return
+    const newStatus = val as 'new' | 'read' | 'replied' | 'archived'
     setStatus(newStatus)
     startTransition(async () => {
       const res = await updateInquiryStatus(id, newStatus)
