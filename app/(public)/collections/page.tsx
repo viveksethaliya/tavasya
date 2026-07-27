@@ -3,7 +3,8 @@ import { getCollections } from "@/features/collections/queries"
 import { RiFolder3Line, RiArrowRightLine } from "@remixicon/react"
 
 export default async function CollectionsPage() {
-  const collections = await getCollections({ publishedOnly: true })
+  const { data: collections, error } = await getCollections({ publishedOnly: true })
+  const validCollections = error || !collections ? [] : collections
 
   return (
     <div className="bg-white">
@@ -17,7 +18,7 @@ export default async function CollectionsPage() {
       </div>
 
       <div className="mx-auto max-w-7xl px-6 py-16 sm:py-24 lg:px-8">
-        {collections.length === 0 ? (
+        {validCollections.length === 0 ? (
           <div className="text-center py-24 bg-slate-50 rounded-3xl border border-slate-100">
             <RiFolder3Line className="mx-auto h-12 w-12 text-slate-400" />
             <h3 className="mt-4 text-sm font-semibold text-slate-900">No collections available</h3>
@@ -25,7 +26,7 @@ export default async function CollectionsPage() {
           </div>
         ) : (
           <div className="grid grid-cols-1 gap-y-12 sm:grid-cols-2 sm:gap-x-8 lg:grid-cols-3">
-            {collections.map((collection) => (
+            {validCollections.map((collection) => (
               <Link 
                 key={collection.id} 
                 href={`/collections/${collection.slug}`}
