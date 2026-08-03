@@ -197,7 +197,7 @@ export async function upsertSpecifications(productId: string, specs: { id?: stri
 
   if (specs.length > 0) {
     const rows = specs.map((s, i) => ({ 
-      ...(s.id ? { id: s.id } : {}), 
+      id: s.id || crypto.randomUUID(), 
       product_id: productId, 
       spec_key: s.spec_key, 
       spec_value: s.spec_value, 
@@ -240,7 +240,7 @@ export async function upsertFeatures(productId: string, features: { id?: string;
 
   if (features.length > 0) {
     const rows = features.map((f, i) => ({ 
-      ...(f.id ? { id: f.id } : {}), 
+      id: f.id || crypto.randomUUID(), 
       product_id: productId, 
       feature_text: f.feature_text, 
       sort_order: i 

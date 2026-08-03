@@ -19,11 +19,11 @@ export default async function CollectionDetailPage(props: { params: Promise<{ sl
   const productsWithImages = await Promise.all(
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (collection.products || []).map(async (product: any) => {
-      let imageUrl = '/Factory Image.png'
+      let imageUrl = '/Factory%20Image.png'
       if (product.primary_image_id) {
         try {
           const media = await getMediaById(product.primary_image_id)
-          if (media?.url) imageUrl = media.url
+          if (media?.file_url) imageUrl = media.file_url
         } catch (_) {}
       }
       return { ...product, imageUrl }
@@ -66,6 +66,7 @@ export default async function CollectionDetailPage(props: { params: Promise<{ sl
                     src={product.imageUrl}
                     alt={product.name}
                     fill
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                     className="object-cover object-center group-hover:scale-105 transition-transform duration-500"
                   />
                 </div>

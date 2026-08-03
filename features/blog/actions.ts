@@ -5,7 +5,7 @@ import { requireAdmin } from "@/server/auth/requireAdmin"
 import { blogSchema, BlogFormValues } from "./schema"
 import { revalidatePath } from "next/cache"
 import { slugify } from "@/utils/slugify"
-import DOMPurify from "isomorphic-dompurify"
+import sanitizeHtml from "sanitize-html"
 
 export async function createBlog(data: BlogFormValues) {
   try {
@@ -41,7 +41,14 @@ export async function createBlog(data: BlogFormValues) {
     const canonical_url = parsed.canonical_url === "" ? null : parsed.canonical_url
     const cover_image_id = parsed.cover_image_id === "" ? null : parsed.cover_image_id
     const og_image_id = parsed.og_image_id === "" ? null : parsed.og_image_id
-    const content = parsed.content ? DOMPurify.sanitize(parsed.content) : parsed.content
+    const content = parsed.content ? sanitizeHtml(parsed.content, {
+      allowedTags: sanitizeHtml.defaults.allowedTags.concat(['img', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'span']),
+      allowedAttributes: {
+        ...sanitizeHtml.defaults.allowedAttributes,
+        '*': ['class', 'style'],
+        'img': ['src', 'alt', 'title', 'width', 'height']
+      }
+    }) : parsed.content
 
     const { data: blog, error } = await supabase
       .from("blogs")
@@ -119,7 +126,14 @@ export async function updateBlog(id: string, data: BlogFormValues) {
     const canonical_url = parsed.canonical_url === "" ? null : parsed.canonical_url
     const cover_image_id = parsed.cover_image_id === "" ? null : parsed.cover_image_id
     const og_image_id = parsed.og_image_id === "" ? null : parsed.og_image_id
-    const content = parsed.content ? DOMPurify.sanitize(parsed.content) : parsed.content
+    const content = parsed.content ? sanitizeHtml(parsed.content, {
+      allowedTags: sanitizeHtml.defaults.allowedTags.concat(['img', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'span']),
+      allowedAttributes: {
+        ...sanitizeHtml.defaults.allowedAttributes,
+        '*': ['class', 'style'],
+        'img': ['src', 'alt', 'title', 'width', 'height']
+      }
+    }) : parsed.content
 
     const { error } = await supabase
       .from("blogs")

@@ -192,10 +192,10 @@ export function ProductImageGallery({ productId, initialImages, primaryImageId, 
               <MediaPickerModal
                 onChange={handleAddImage}
                 trigger={
-                  <div className="flex flex-col items-center gap-2 text-slate-400 hover:text-[#324E64] transition-colors">
+                  <button type="button" className="flex flex-col items-center gap-2 text-slate-400 hover:text-[#324E64] transition-colors w-full h-full justify-center">
                     <RiAddLine className="h-8 w-8" />
                     <span className="text-xs font-medium">Add Image</span>
-                  </div>
+                  </button>
                 }
               />
             </div>

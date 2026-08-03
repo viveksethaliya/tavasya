@@ -17,11 +17,11 @@ export default async function ProductDetailPage(props: { params: Promise<{ slug:
   }
 
   // Resolve cover image
-  let coverImageUrl = '/Factory Image.png'
+  let coverImageUrl = '/Factory%20Image.png'
   if (product.primary_image_id) {
     try {
       const media = await getMediaById(product.primary_image_id)
-      if (media?.url) coverImageUrl = media.url
+      if (media?.file_url) coverImageUrl = media.file_url
     } catch (_) {
       console.error("Failed to fetch image for product", product.id)
     }
@@ -36,7 +36,7 @@ export default async function ProductDetailPage(props: { params: Promise<{ slug:
       if (image.media_id === product.primary_image_id) continue // Skip cover image in gallery if already there
       try {
         const media = await getMediaById(image.media_id)
-        if (media?.url) galleryUrls.push(media.url)
+        if (media?.file_url) galleryUrls.push(media.file_url)
       } catch (_) {}
     }
   }
@@ -56,6 +56,7 @@ export default async function ProductDetailPage(props: { params: Promise<{ slug:
                 src={coverImageUrl}
                 alt={product.name}
                 fill
+                sizes="(max-width: 1024px) 100vw, 50vw"
                 className="object-cover object-center"
                 priority
               />
@@ -68,6 +69,7 @@ export default async function ProductDetailPage(props: { params: Promise<{ slug:
                       src={url}
                       alt={`${product.name} view ${idx + 1}`}
                       fill
+                      sizes="(max-width: 640px) 50vw, (max-width: 1024px) 25vw, 12vw"
                       className="object-cover object-center"
                     />
                   </div>

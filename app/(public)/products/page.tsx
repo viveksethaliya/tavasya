@@ -11,11 +11,11 @@ export default async function ProductsPage() {
   // Resolve cover images if available
   const productsWithImages = await Promise.all(
     products.map(async (product) => {
-      let imageUrl = '/Factory Image.png' // Default fallback
+      let imageUrl = '/Factory%20Image.png' // Default fallback
       if (product.primary_image_id) {
         try {
           const media = await getMediaById(product.primary_image_id)
-          if (media?.url) imageUrl = media.url
+          if (media?.file_url) imageUrl = media.file_url
         } catch (_) {
           console.error("Failed to fetch image for product", product.id)
         }
@@ -51,6 +51,7 @@ export default async function ProductsPage() {
                     src={product.imageUrl}
                     alt={product.name}
                     fill
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                     className="object-cover object-center group-hover:scale-110 transition-transform duration-700 ease-in-out"
                   />
                   {product.sku && (
