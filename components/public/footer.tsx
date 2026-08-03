@@ -1,9 +1,9 @@
 import Link from "next/link"
 import Image from "next/image"
-import { 
-  RiInstagramLine, 
-  RiFacebookBoxLine, 
-  RiLinkedinBoxLine, 
+import {
+  RiInstagramLine,
+  RiFacebookBoxLine,
+  RiLinkedinBoxLine,
   RiYoutubeLine,
   RiMapPinLine,
   RiPhoneLine,
@@ -49,13 +49,13 @@ export function PublicFooter() {
       <div className="mx-auto max-w-7xl px-6 pb-8 pt-16 sm:pt-24 lg:px-8 lg:pt-32">
         <div className="xl:grid xl:grid-cols-3 xl:gap-8">
           <div className="space-y-8">
-            <div className="relative h-12 w-48 bg-white/10 rounded-lg p-2">
-              <Image 
+            <div className="relative h-12 w-48">
+              <Image
                 src="/Logo-E10.png"
                 alt="Tavasya Machine Solutions"
                 fill
                 sizes="192px"
-                className="object-contain object-left invert brightness-0"
+                className="object-contain object-left"
               />
             </div>
             <p className="text-sm leading-6 text-slate-300">

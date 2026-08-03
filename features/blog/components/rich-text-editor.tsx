@@ -51,7 +51,7 @@ const MenuBar = ({ editor, orientation = 'horizontal', isFocusMode, toggleFocusM
   }
 
   return (
-    <div className={`bg-transparent flex ${orientation === 'vertical' ? 'flex-col py-4 w-full min-h-full [&>button]:shrink-0' : 'flex-wrap items-center justify-center sm:justify-start'} gap-1`}>
+    <div className={`bg-transparent flex ${orientation === 'vertical' ? 'flex-col items-center py-4 w-full min-h-full [&>button]:shrink-0' : 'flex-wrap items-center justify-center sm:justify-start'} gap-1`}>
       <Button
         type="button"
         variant="ghost"

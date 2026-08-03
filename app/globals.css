@@ -145,7 +145,48 @@
   table-layout: fixed;
   width: 100%;
   margin: 0;
-  overflow: hidden;
+  display: block;
+  max-width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Storefront Table Styles */
+.prose table {
+  display: block;
+  max-width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  border-collapse: separate;
+  border-spacing: 0;
+  border: 1px solid #e2e8f0;
+  border-radius: 0.75rem;
+  margin-top: 2em;
+  margin-bottom: 2em;
+}
+
+.prose table th,
+.prose table td {
+  border-right: 1px solid #e2e8f0;
+  border-bottom: 1px solid #e2e8f0;
+  padding: 1rem 1.25rem;
+  white-space: nowrap;
+}
+
+.prose table th:last-child,
+.prose table td:last-child {
+  border-right: none;
+}
+
+.prose table tr:last-child td {
+  border-bottom: none;
+}
+
+.prose table th {
+  background-color: #f0f9ff; /* Beautiful light blue/sky color */
+  color: #0369a1; /* Sky 700 for good contrast */
+  font-weight: 600;
+  text-align: left;
 }
 
 .ProseMirror td,
