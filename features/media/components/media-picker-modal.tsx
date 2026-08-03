@@ -47,10 +47,10 @@ export function MediaPickerModal({ value, onChange, trigger }: MediaPickerModalP
   }, [])
 
   React.useEffect(() => {
-    if (open) {
+    if (open || (value && media.length === 0)) {
       fetchMedia()
     }
-  }, [open, fetchMedia])
+  }, [open, value, media.length, fetchMedia])
 
   const handleSelect = (id: string) => {
     onChange(id, media.find((m) => m.id === id))
@@ -105,8 +105,22 @@ export function MediaPickerModal({ value, onChange, trigger }: MediaPickerModalP
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger render={<button type="button" className="cursor-pointer w-full text-left focus:outline-none block" />}>
-        {trigger || (
+      {trigger ? (
+        // Ensure trigger element is a valid React Element to use with render prop
+        <DialogTrigger render={trigger as React.ReactElement} />
+      ) : (
+        <div 
+          role="button" 
+          tabIndex={0} 
+          className="cursor-pointer w-full text-left focus:outline-none block"
+          onClick={() => setOpen(true)}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault();
+              setOpen(true);
+            }
+          }}
+        >
           <div className="relative w-full border rounded-xl overflow-hidden bg-slate-50 hover:border-[#324E64]/50 transition-colors">
             {selectedItem ? (
               <div className="relative aspect-video group">
@@ -136,8 +150,8 @@ export function MediaPickerModal({ value, onChange, trigger }: MediaPickerModalP
               </div>
             )}
           </div>
-        )}
-      </DialogTrigger>
+        </div>
+      )}
 
       <DialogContent className="sm:max-w-7xl max-h-[400vh] flex flex-col p-0 font-sans">
         <DialogHeader className="px-6 pt-6 pb-4 border-b">

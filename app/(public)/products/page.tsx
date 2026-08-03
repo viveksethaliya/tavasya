@@ -12,9 +12,9 @@ export default async function ProductsPage() {
   const productsWithImages = await Promise.all(
     products.map(async (product) => {
       let imageUrl = '/Factory Image.png' // Default fallback
-      if (product.cover_image_id) {
+      if (product.primary_image_id) {
         try {
-          const media = await getMediaById(product.cover_image_id)
+          const media = await getMediaById(product.primary_image_id)
           if (media?.url) imageUrl = media.url
         } catch (_) {
           console.error("Failed to fetch image for product", product.id)

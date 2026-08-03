@@ -1,6 +1,7 @@
+import Image from "next/image"
 import Link from "next/link"
 import { format } from "date-fns"
-import { RiArrowRightLine } from "@remixicon/react"
+import { RiArrowRightLine, RiArticleLine } from "@remixicon/react"
 
 interface BlogCardProps {
   post: {
@@ -8,37 +9,59 @@ interface BlogCardProps {
     slug: string
     excerpt?: string | null
     published_at?: string | null
-    cover_image_id?: string | null
+    imageUrl?: string | null
+    author_name?: string | null
   }
 }
 
 export function BlogCard({ post }: BlogCardProps) {
   return (
-    <Link href={`/blog/${post.slug}`} aria-label={`Read article: ${post.title}`} className="group flex flex-col h-full overflow-hidden rounded-lg border bg-card text-card-foreground shadow-sm hover:shadow-md transition-shadow">
-      <div className="aspect-[16/9] w-full bg-muted/50 overflow-hidden relative flex items-center justify-center text-muted-foreground">
-        {/* Placeholder for Cover Image */}
-        {post.cover_image_id ? (
-          <span className="text-sm">Image {post.cover_image_id}</span>
-        ) : (
-          <span className="text-sm">No Image</span>
-        )}
+    <article className="flex flex-col items-start justify-between group h-full">
+      <div className="relative w-full">
+        <div className="relative aspect-[16/9] w-full rounded-2xl bg-slate-50 object-cover sm:aspect-[2/1] lg:aspect-[3/2] overflow-hidden shadow-sm">
+          {post.imageUrl ? (
+            <Image
+              src={post.imageUrl}
+              alt={post.title}
+              fill
+              className="object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
+            />
+          ) : (
+            <div className="absolute inset-0 flex items-center justify-center border border-slate-100 rounded-2xl bg-slate-50">
+              <RiArticleLine className="h-12 w-12 text-slate-300" />
+            </div>
+          )}
+        </div>
+        <div className="absolute inset-0 rounded-2xl ring-1 ring-inset ring-slate-900/5 pointer-events-none" />
       </div>
-      <div className="flex flex-col flex-grow p-6">
-        {post.published_at && (
-          <time dateTime={post.published_at} className="text-sm text-muted-foreground mb-3 font-medium">
-            {format(new Date(post.published_at), "MMMM d, yyyy")}
+      <div className="flex flex-col flex-grow w-full max-w-xl">
+        <div className="mt-6 flex items-center gap-x-4 text-xs">
+          <time dateTime={post.published_at || new Date().toISOString()} className="text-slate-500 font-medium tracking-wide uppercase">
+            {post.published_at ? format(new Date(post.published_at), 'MMM d, yyyy') : 'Recently'}
           </time>
-        )}
-        <h3 className="text-xl font-bold mb-2 group-hover:text-primary transition-colors line-clamp-2">
-          {post.title}
-        </h3>
-        <p className="text-muted-foreground text-sm line-clamp-3 mb-6 flex-grow">
-          {post.excerpt || "Read full post..."}
-        </p>
-        <div className="flex items-center text-sm font-semibold text-primary mt-auto group-hover:translate-x-1 transition-transform">
-          Read Article <RiArrowRightLine className="ml-1 w-4 h-4" />
+        </div>
+        <div className="group relative flex-grow">
+          <h3 className="mt-3 text-xl font-bold leading-7 text-[#324E64] group-hover:text-[#F3BA43] transition-colors duration-300 line-clamp-2">
+            <Link href={`/blog/${post.slug}`}>
+              <span className="absolute inset-0" />
+              {post.title}
+            </Link>
+          </h3>
+          <p className="mt-4 line-clamp-3 text-sm leading-6 text-slate-600">
+            {post.excerpt || "Read the full article to learn more."}
+          </p>
+        </div>
+        <div className="relative mt-8 flex items-center justify-between gap-x-4 w-full">
+          <div className="text-sm leading-6">
+            <p className="font-semibold text-[#324E64]">
+              {post.author_name || 'Tavasya Engineering'}
+            </p>
+          </div>
+          <div className="flex items-center text-sm font-semibold text-[#F3BA43] group-hover:translate-x-1 transition-transform duration-300">
+            Read <RiArrowRightLine className="ml-1 w-4 h-4" />
+          </div>
         </div>
       </div>
-    </Link>
+    </article>
   )
 }

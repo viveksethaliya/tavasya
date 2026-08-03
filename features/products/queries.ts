@@ -33,7 +33,12 @@ export async function getProductById(id: string) {
 export async function getProductBySlug(slug: string, options?: { publishedOnly?: boolean }) {
   const supabase = await createClient()
   
-  let query = supabase.from("products").select("*").eq("slug", slug)
+  let query = supabase.from("products").select(`
+    *,
+    product_images ( media_id, sort_order ),
+    product_specifications ( spec_key, spec_value, sort_order ),
+    product_features ( feature_text, sort_order )
+  `).eq("slug", slug)
   
   if (options?.publishedOnly) {
     query = query.eq("status", "published")

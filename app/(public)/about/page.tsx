@@ -43,7 +43,7 @@ export default function AboutPage() {
       {/* Solutions / Points Section */}
       <div className="bg-slate-50 py-24 sm:py-32">
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
-          <dl className="grid max-w-xl grid-cols-1 gap-x-8 gap-y-16 lg:max-w-none lg:grid-cols-4">
+          <dl className="grid max-w-xl grid-cols-1 gap-x-8 gap-y-16 sm:grid-cols-2 lg:max-w-none lg:grid-cols-4">
             {[
               { name: 'Cereal & Grain Cleaning', icon: '/icons/image.png' },
               { name: 'Grading & Sorting Machines', icon: '/icons/image copy.png' },

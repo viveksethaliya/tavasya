@@ -6,6 +6,8 @@ import { getMediaById } from "@/features/media/queries"
 import { format } from "date-fns"
 import { RiArrowLeftLine } from "@remixicon/react"
 import { Metadata, ResolvingMetadata } from "next"
+import { RichTextRenderer } from "@/components/marketing/rich-text-renderer"
+import { BlogCard } from "@/components/marketing/blog-card"
 
 export async function generateMetadata(
   props: { params: Promise<{ slug: string }> },
@@ -20,7 +22,7 @@ export async function generateMetadata(
     if (blog.cover_image_id) {
       try {
         const media = await getMediaById(blog.cover_image_id)
-        if (media?.url) coverImageUrl = media.url
+        if (media?.file_url) coverImageUrl = media.file_url
       } catch (_) {}
     }
 
@@ -58,33 +60,51 @@ export default async function BlogDetailPage(props: { params: Promise<{ slug: st
   if (blog.cover_image_id) {
     try {
       const media = await getMediaById(blog.cover_image_id)
-      if (media?.url) coverImageUrl = media.url
+      if (media?.file_url) coverImageUrl = media.file_url
     } catch (_) {}
   }
 
-  // Format content for simple markdown rendering if needed, 
-  // For now we assume blog.content is HTML or simple text.
-  // We'll render it safely using a div and prose classes.
+  // Resolve related blog images
+  const relatedBlogsWithImages = await Promise.all(
+    relatedBlogs.map(async (related) => {
+      let imageUrl = null
+      if (related.cover_image_id) {
+        try {
+          const media = await getMediaById(related.cover_image_id)
+          if (media?.file_url) imageUrl = media.file_url
+        } catch (_) {}
+      }
+      return { ...related, imageUrl }
+    })
+  )
 
   return (
-    <div className="bg-white px-6 py-16 lg:px-8">
-      <div className="mx-auto max-w-3xl text-base leading-7 text-slate-700">
-        <Link href="/blog" className="inline-flex items-center text-sm font-semibold text-slate-500 hover:text-[#324E64] mb-8 transition-colors">
-          <RiArrowLeftLine className="mr-2 h-4 w-4" /> Back to Blog
-        </Link>
-        <p className="text-base font-semibold leading-7 text-[#F3BA43]">
-          {format(new Date(blog.published_at || blog.created_at), 'MMMM d, yyyy')}
-        </p>
-        <h1 className="mt-2 text-3xl font-bold tracking-tight text-[#324E64] sm:text-4xl">
-          {blog.title}
-        </h1>
-        <p className="mt-4 text-sm font-medium text-slate-500">
-          By {blog.author || 'Tavasya Engineering'}
-        </p>
+    <div className="bg-white min-h-screen">
+      {/* Premium Hero Section */}
+      <div className="bg-[#1E3448] pt-16 pb-24 sm:pt-24 sm:pb-32 relative isolate overflow-hidden">
+        <div className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-[#324E64] via-[#1E3448] to-[#1E3448]"></div>
+        <div className="mx-auto max-w-4xl px-6 lg:px-8 text-center">
+          <Link href="/blog" className="inline-flex items-center text-sm font-semibold text-slate-300 hover:text-[#F3BA43] mb-8 transition-colors group">
+            <RiArrowLeftLine className="mr-2 h-4 w-4 group-hover:-translate-x-1 transition-transform" /> Back to Blog
+          </Link>
+          <div className="flex items-center justify-center gap-x-4 text-sm mb-6">
+            <time dateTime={blog.published_at || blog.created_at} className="text-[#F3BA43] font-semibold tracking-wide uppercase">
+              {format(new Date(blog.published_at || blog.created_at), 'MMMM d, yyyy')}
+            </time>
+          </div>
+          <h1 className="text-4xl font-bold tracking-tight text-white sm:text-5xl lg:text-6xl drop-shadow-sm mb-8 leading-tight">
+            {blog.title}
+          </h1>
+          <p className="text-base font-medium text-slate-300">
+            By <span className="text-white">{(blog as any).author_name || blog.author || 'Tavasya Engineering'}</span>
+          </p>
+        </div>
+      </div>
 
+      <div className="mx-auto max-w-3xl px-6 lg:px-8 mt-12 sm:-mt-24 relative z-10 pb-16">
         {coverImageUrl && (
-          <figure className="mt-10 mb-10">
-            <div className="relative aspect-[16/9] w-full rounded-2xl bg-slate-50 overflow-hidden shadow-sm">
+          <figure className="mb-16">
+            <div className="relative aspect-[16/9] w-full rounded-2xl bg-slate-50 overflow-hidden shadow-lg ring-1 ring-slate-900/10">
               <Image
                 src={coverImageUrl}
                 alt={blog.title}
@@ -96,31 +116,32 @@ export default async function BlogDetailPage(props: { params: Promise<{ slug: st
           </figure>
         )}
 
-        <div 
-          className="mt-10 max-w-2xl prose prose-slate lg:prose-lg mx-auto prose-headings:text-[#324E64] prose-a:text-[#F3BA43]"
-          dangerouslySetInnerHTML={{ __html: blog.content }}
+        <RichTextRenderer 
+          content={blog.content} 
+          className="prose-slate lg:prose-lg mx-auto prose-headings:text-[#324E64] prose-a:text-[#F3BA43]" 
         />
       </div>
 
       {/* Related Blogs */}
-      {relatedBlogs.length > 0 && (
-        <div className="mx-auto max-w-3xl mt-24 border-t border-slate-100 pt-16">
-          <h2 className="text-2xl font-bold tracking-tight text-[#324E64] mb-8">Related Articles</h2>
-          <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
-            {relatedBlogs.map((related) => (
-              <Link 
-                key={related.id} 
-                href={`/blog/${related.slug}`}
-                className="group flex flex-col"
-              >
-                <h3 className="text-sm font-bold text-[#324E64] group-hover:text-[#F3BA43] transition-colors line-clamp-2">
-                  {related.title}
-                </h3>
-                <p className="mt-2 text-xs text-slate-500">
-                  {format(new Date(related.published_at), 'MMM d, yyyy')}
-                </p>
-              </Link>
-            ))}
+      {relatedBlogsWithImages.length > 0 && (
+        <div className="bg-slate-50 mt-12 py-24 border-t border-slate-100">
+          <div className="mx-auto max-w-7xl px-6 lg:px-8">
+            <div className="mx-auto max-w-2xl text-center mb-16">
+              <h2 className="text-3xl font-bold tracking-tight text-[#324E64] sm:text-4xl">Related Articles</h2>
+              <p className="mt-4 text-lg text-slate-600">Discover more insights and updates.</p>
+            </div>
+            <div className="mx-auto grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 lg:mx-0 lg:max-w-none lg:grid-cols-3">
+              {relatedBlogsWithImages.map((related) => (
+                <BlogCard key={related.id} post={{
+                  title: related.title,
+                  slug: related.slug,
+                  excerpt: related.excerpt,
+                  published_at: related.published_at || related.created_at,
+                  imageUrl: related.imageUrl,
+                  author_name: (related as any).author_name || related.author
+                }} />
+              ))}
+            </div>
           </div>
         </div>
       )}

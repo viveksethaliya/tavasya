@@ -33,9 +33,9 @@ export default function HomePage() {
             <p className="mt-6 text-lg leading-8 text-slate-300">
               Engineering innovation, trust, and precision into every machine we build.
             </p>
-            <div className="mt-10 flex items-center gap-x-6">
+            <div className="mt-10 flex flex-wrap items-center gap-4 sm:gap-x-6">
               <Link href="/contact">
-                <Button size="lg" className="bg-[#F3BA43] text-[#324E64] hover:bg-[#F3BA43]/90 font-bold px-8 shadow-sm">
+                <Button size="lg" className="bg-[#F3BA43] text-[#324E64] hover:bg-[#F3BA43]/90 font-bold px-8 shadow-sm w-full sm:w-auto">
                   Get Started Now
                 </Button>
               </Link>
@@ -56,7 +56,7 @@ export default function HomePage() {
             </p>
           </div>
           <div className="mx-auto mt-16 max-w-2xl sm:mt-20 lg:mt-24 lg:max-w-none">
-            <dl className="grid max-w-xl grid-cols-1 gap-x-8 gap-y-16 lg:max-w-none lg:grid-cols-4">
+            <dl className="grid max-w-xl grid-cols-1 gap-x-8 gap-y-16 sm:grid-cols-2 lg:max-w-none lg:grid-cols-4">
               {[
                 { name: 'Cereal & Grain Cleaning', icon: '/icons/image.png' },
                 { name: 'Grading & Sorting Machines', icon: '/icons/image1.png' },
@@ -162,7 +162,7 @@ export default function HomePage() {
             </p>
           </div>
           <div className="mx-auto mt-16 max-w-2xl sm:mt-20 lg:mt-24 lg:max-w-none">
-            <dl className="grid max-w-xl grid-cols-1 gap-x-8 gap-y-16 lg:max-w-none lg:grid-cols-3">
+            <dl className="grid max-w-xl grid-cols-1 gap-x-8 gap-y-16 md:grid-cols-2 lg:max-w-none lg:grid-cols-3">
               {[
                 {
                   title: "Advanced Cleaning Technology",

@@ -20,9 +20,9 @@ export default async function CollectionDetailPage(props: { params: Promise<{ sl
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (collection.products || []).map(async (product: any) => {
       let imageUrl = '/Factory Image.png'
-      if (product.cover_image_id) {
+      if (product.primary_image_id) {
         try {
-          const media = await getMediaById(product.cover_image_id)
+          const media = await getMediaById(product.primary_image_id)
           if (media?.url) imageUrl = media.url
         } catch (_) {}
       }
