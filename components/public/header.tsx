@@ -71,7 +71,7 @@ export function PublicHeader() {
         <div className="hidden lg:flex lg:flex-1 lg:justify-end">
           <Link href="/contact">
             <Button className="bg-[#F3BA43] text-[#324E64] hover:bg-[#F3BA43]/90 font-semibold shadow-sm">
-              Get Started Now
+              Contact Us
             </Button>
           </Link>
         </div>

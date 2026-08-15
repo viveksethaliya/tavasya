@@ -1,11 +1,8 @@
 import Link from "next/link"
-import { getCollections } from "@/features/collections/queries"
+import { COLLECTIONS } from "@/data/collections"
 import { RiFolder3Line, RiArrowRightLine } from "@remixicon/react"
 
-export default async function CollectionsPage() {
-  const { data: collections, error } = await getCollections({ publishedOnly: true })
-  const validCollections = error || !collections ? [] : collections
-
+export default function CollectionsPage() {
   return (
     <div className="bg-white">
       <div className="bg-[#1E3448] py-24 sm:py-32">
@@ -18,7 +15,7 @@ export default async function CollectionsPage() {
       </div>
 
       <div className="mx-auto max-w-7xl px-6 py-16 sm:py-24 lg:px-8">
-        {validCollections.length === 0 ? (
+        {COLLECTIONS.length === 0 ? (
           <div className="text-center py-24 bg-slate-50 rounded-3xl border border-slate-100">
             <RiFolder3Line className="mx-auto h-12 w-12 text-slate-400" />
             <h3 className="mt-4 text-sm font-semibold text-slate-900">No collections available</h3>
@@ -26,9 +23,9 @@ export default async function CollectionsPage() {
           </div>
         ) : (
           <div className="grid grid-cols-1 gap-y-12 sm:grid-cols-2 sm:gap-x-8 lg:grid-cols-3">
-            {validCollections.map((collection) => (
-              <Link 
-                key={collection.id} 
+            {COLLECTIONS.map((collection) => (
+              <Link
+                key={collection.slug}
                 href={`/collections/${collection.slug}`}
                 className="group flex flex-col bg-slate-50 rounded-2xl overflow-hidden shadow-sm border border-slate-100 transition-all hover:shadow-md hover:-translate-y-1"
               >
@@ -44,7 +41,7 @@ export default async function CollectionsPage() {
                   </p>
                   <div className="mt-8 flex items-center justify-between text-sm">
                     <span className="font-medium text-slate-500">
-                      {collection.product_count} {collection.product_count === 1 ? 'Product' : 'Products'}
+                      {collection.productSlugs.length} {collection.productSlugs.length === 1 ? 'Product' : 'Products'}
                     </span>
                     <span className="font-semibold text-[#324E64] flex items-center group-hover:text-[#F3BA43] transition-colors">
                       Browse <RiArrowRightLine className="ml-1 h-4 w-4" />

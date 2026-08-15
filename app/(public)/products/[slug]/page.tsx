@@ -1,45 +1,36 @@
 import Link from "next/link"
 import Image from "next/image"
 import { notFound } from "next/navigation"
-import { getProductBySlug } from "@/features/products/queries"
-import { getMediaById } from "@/features/media/queries"
-import { RiCheckDoubleLine, RiArrowLeftLine } from "@remixicon/react"
+import { PRODUCTS, getProductBySlug } from "@/data/products"
+import { RiCheckDoubleLine, RiArrowLeftLine, RiFocus2Line } from "@remixicon/react"
 import { Button } from "@/components/ui/button"
+import { Metadata } from "next"
+
+export async function generateStaticParams() {
+  return PRODUCTS.map((p) => ({ slug: p.slug }))
+}
+
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+  const { slug } = await params;
+  const product = getProductBySlug(slug);
+
+  if (!product) {
+    return {
+      title: 'Product Not Found',
+    }
+  }
+
+  return {
+    title: product.name,
+    description: product.shortDescription,
+  }
+}
 
 export default async function ProductDetailPage(props: { params: Promise<{ slug: string }> }) {
-  const params = await props.params;
-  let product
-  
-  try {
-    product = await getProductBySlug(params.slug, { publishedOnly: true })
-  } catch (_) {
-    notFound()
-  }
+  const { slug } = await props.params
+  const product = getProductBySlug(slug)
 
-  // Resolve cover image
-  let coverImageUrl = '/Factory%20Image.png'
-  if (product.primary_image_id) {
-    try {
-      const media = await getMediaById(product.primary_image_id)
-      if (media?.file_url) coverImageUrl = media.file_url
-    } catch (_) {
-      console.error("Failed to fetch image for product", product.id)
-    }
-  }
-
-  // Resolve gallery images
-  const galleryUrls: string[] = []
-  if (product.product_images && product.product_images.length > 0) {
-    // Sort images by sort_order
-    const sortedImages = [...product.product_images].sort((a, b) => a.sort_order - b.sort_order)
-    for (const image of sortedImages) {
-      if (image.media_id === product.primary_image_id) continue // Skip cover image in gallery if already there
-      try {
-        const media = await getMediaById(image.media_id)
-        if (media?.file_url) galleryUrls.push(media.file_url)
-      } catch (_) {}
-    }
-  }
+  if (!product) notFound()
 
   return (
     <div className="bg-white">
@@ -47,91 +38,68 @@ export default async function ProductDetailPage(props: { params: Promise<{ slug:
         <Link href="/products" className="inline-flex items-center text-sm font-semibold text-slate-500 hover:text-[#324E64] mb-8">
           <RiArrowLeftLine className="mr-2 h-4 w-4" /> Back to Products
         </Link>
-        
+
         <div className="lg:grid lg:grid-cols-2 lg:items-start lg:gap-x-16">
-          {/* Image gallery */}
-          <div className="flex flex-col">
-            <div className="relative aspect-[4/3] w-full overflow-hidden rounded-2xl bg-slate-100">
-              <Image
-                src={coverImageUrl}
-                alt={product.name}
-                fill
-                sizes="(max-width: 1024px) 100vw, 50vw"
-                className="object-cover object-center"
-                priority
-              />
-            </div>
-            {galleryUrls.length > 0 && (
-              <div className="mt-4 grid grid-cols-2 sm:grid-cols-4 gap-4">
-                {galleryUrls.map((url, idx) => (
-                  <div key={idx} className="relative aspect-square w-full overflow-hidden rounded-lg bg-slate-100 cursor-pointer hover:opacity-90 hover:ring-2 hover:ring-[#F3BA43] hover:ring-offset-2 transition-all duration-300">
-                    <Image
-                      src={url}
-                      alt={`${product.name} view ${idx + 1}`}
-                      fill
-                      sizes="(max-width: 640px) 50vw, (max-width: 1024px) 25vw, 12vw"
-                      className="object-cover object-center"
-                    />
-                  </div>
-                ))}
-              </div>
-            )}
+          {/* Image */}
+          <div className="relative aspect-[4/3] w-full overflow-hidden rounded-2xl bg-slate-100 flex items-center justify-center p-8">
+            <Image
+              src={product.image}
+              alt={product.name}
+              fill
+              sizes="(max-width: 1024px) 100vw, 50vw"
+              className="object-contain object-center p-8"
+              priority
+            />
           </div>
 
           {/* Product info */}
           <div className="mt-10 px-4 sm:px-0 lg:mt-0">
-            {product.sku && (
-              <p className="text-sm font-medium tracking-wide text-[#F3BA43] uppercase mb-2">
-                SKU: {product.sku}
-              </p>
-            )}
             <h1 className="text-3xl font-bold tracking-tight text-[#324E64] sm:text-4xl">{product.name}</h1>
-            
-            {product.category && (
-              <span className="inline-block mt-3 px-3 py-1 bg-slate-100 text-slate-600 rounded-full text-xs font-semibold">
-                {product.category}
-              </span>
-            )}
-            
+
             <div className="mt-6">
-              <h3 className="sr-only">Description</h3>
-              <div className="space-y-6 text-base text-slate-600 leading-8">
-                {product.description || product.short_description}
-              </div>
+              <h2 className="sr-only">Description</h2>
+              <p className="text-base text-slate-600 leading-8">{product.longDescription}</p>
             </div>
 
-            {/* Specifications / Features if available */}
-            {product.product_specifications && product.product_specifications.length > 0 && (
-              <div className="mt-10">
-                <h3 className="text-lg font-semibold text-[#324E64]">Technical Specifications</h3>
-                <div className="mt-4 border-t border-slate-100">
-                  <dl className="divide-y divide-slate-100">
-                    {[...product.product_specifications]
-                      .sort((a, b) => a.sort_order - b.sort_order)
-                      .map((spec, idx) => (
-                      <div key={idx} className="px-4 py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-4 hover:bg-slate-50 transition-colors rounded-lg">
-                        <dt className="text-sm font-medium leading-6 text-slate-900 capitalize">{spec.spec_key}</dt>
-                        <dd className="mt-1 text-sm leading-6 text-slate-700 sm:col-span-2 sm:mt-0">{spec.spec_value}</dd>
-                      </div>
-                    ))}
-                  </dl>
-                </div>
-              </div>
-            )}
-            
-            {product.product_features && product.product_features.length > 0 && (
+            {product.keyFeatures && product.keyFeatures.length > 0 && (
               <div className="mt-10">
                 <h3 className="text-lg font-semibold text-[#324E64]">Key Features</h3>
                 <ul className="mt-4 space-y-3">
-                  {[...product.product_features]
-                    .sort((a, b) => a.sort_order - b.sort_order)
-                    .map((feature, idx) => (
+                  {product.keyFeatures.map((feature, idx) => (
                     <li key={idx} className="flex gap-x-3 text-sm text-slate-600">
                       <RiCheckDoubleLine className="h-5 w-5 flex-none text-[#F3BA43]" aria-hidden="true" />
-                      <span>{feature.feature_text}</span>
+                      <span>{feature}</span>
                     </li>
                   ))}
                 </ul>
+              </div>
+            )}
+
+            {product.applications && product.applications.length > 0 && (
+              <div className="mt-10">
+                <h3 className="text-lg font-semibold text-[#324E64]">Applications</h3>
+                <ul className="mt-4 space-y-3">
+                  {product.applications.map((app, idx) => (
+                    <li key={idx} className="flex gap-x-3 text-sm text-slate-600">
+                      <RiFocus2Line className="h-5 w-5 flex-none text-[#F3BA43]" aria-hidden="true" />
+                      <span>{app}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+
+            {product.notes && Object.keys(product.notes).length > 0 && (
+              <div className="mt-10 p-4 bg-slate-50 border border-slate-100 rounded-xl">
+                <h3 className="text-sm font-semibold text-[#324E64]">Additional Notes</h3>
+                <dl className="mt-2 text-sm text-slate-600 space-y-2">
+                  {Object.entries(product.notes).map(([key, value]) => (
+                    <div key={key} className="flex gap-2">
+                      <dt className="font-medium capitalize">{key.replace('_', ' ')}:</dt>
+                      <dd>{value}</dd>
+                    </div>
+                  ))}
+                </dl>
               </div>
             )}
 
@@ -142,28 +110,6 @@ export default async function ProductDetailPage(props: { params: Promise<{ slug:
                 </Button>
               </Link>
             </div>
-            
-            <section aria-labelledby="policies-heading" className="mt-10">
-              <h2 id="policies-heading" className="sr-only">
-                Our Guarantees
-              </h2>
-              <dl className="grid grid-cols-1 gap-6 sm:grid-cols-2">
-                <div className="bg-slate-50 p-6 rounded-2xl">
-                  <dt className="flex items-center gap-x-3 text-sm font-semibold text-[#324E64]">
-                    <RiCheckDoubleLine className="h-5 w-5 text-[#F3BA43]" />
-                    Precision Engineered
-                  </dt>
-                  <dd className="mt-2 text-sm text-slate-600">Built to deliver exact cleaning and grading specs consistently.</dd>
-                </div>
-                <div className="bg-slate-50 p-6 rounded-2xl">
-                  <dt className="flex items-center gap-x-3 text-sm font-semibold text-[#324E64]">
-                    <RiCheckDoubleLine className="h-5 w-5 text-[#F3BA43]" />
-                    Lifetime Support
-                  </dt>
-                  <dd className="mt-2 text-sm text-slate-600">Dedicated service and maintenance from our expert team.</dd>
-                </div>
-              </dl>
-            </section>
           </div>
         </div>
       </div>

@@ -1,29 +1,10 @@
 import Link from "next/link"
 import Image from "next/image"
-import { getProducts } from "@/features/products/queries"
-import { getMediaById } from "@/features/media/queries"
+import { PRODUCTS } from "@/data/products"
 import { RiArrowRightLine, RiDatabase2Line } from "@remixicon/react"
 import { Button } from "@/components/ui/button"
 
-export default async function ProductsPage() {
-  const products = await getProducts({ publishedOnly: true })
-
-  // Resolve cover images if available
-  const productsWithImages = await Promise.all(
-    products.map(async (product) => {
-      let imageUrl = '/Factory%20Image.png' // Default fallback
-      if (product.primary_image_id) {
-        try {
-          const media = await getMediaById(product.primary_image_id)
-          if (media?.file_url) imageUrl = media.file_url
-        } catch (_) {
-          console.error("Failed to fetch image for product", product.id)
-        }
-      }
-      return { ...product, imageUrl }
-    })
-  )
-
+export default function ProductsPage() {
   return (
     <div className="bg-white">
       <div className="bg-[#1E3448] py-24 sm:py-32">
@@ -36,7 +17,7 @@ export default async function ProductsPage() {
       </div>
 
       <div className="mx-auto max-w-7xl px-6 py-16 sm:py-24 lg:px-8">
-        {productsWithImages.length === 0 ? (
+        {PRODUCTS.length === 0 ? (
           <div className="text-center py-24 bg-slate-50 rounded-3xl border border-slate-100">
             <RiDatabase2Line className="mx-auto h-12 w-12 text-slate-400" />
             <h3 className="mt-4 text-sm font-semibold text-slate-900">No products available</h3>
@@ -44,22 +25,16 @@ export default async function ProductsPage() {
           </div>
         ) : (
           <div className="grid grid-cols-1 gap-y-16 sm:grid-cols-2 sm:gap-x-8 lg:grid-cols-3">
-            {productsWithImages.map((product) => (
-              <div key={product.id} className="group flex flex-col bg-white rounded-2xl overflow-hidden shadow-sm border border-slate-100 transition-all duration-300 hover:shadow-xl hover:-translate-y-1 hover:border-slate-200">
-                <div className="relative aspect-[4/3] w-full overflow-hidden bg-slate-100">
+            {PRODUCTS.map((product) => (
+              <div key={product.slug} className="group relative flex flex-col bg-white rounded-2xl overflow-hidden shadow-sm border border-slate-100 transition-all duration-300 hover:shadow-xl hover:-translate-y-1 hover:border-slate-200">
+                <div className="relative aspect-[4/3] w-full overflow-hidden bg-slate-100 p-8 flex items-center justify-center">
                   <Image
-                    src={product.imageUrl}
+                    src={product.image}
                     alt={product.name}
                     fill
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                    className="object-cover object-center group-hover:scale-110 transition-transform duration-700 ease-in-out"
+                    className="object-contain object-center group-hover:scale-110 transition-transform duration-700 ease-in-out p-4"
                   />
-                  {product.sku && (
-                    <div className="absolute top-4 left-4 bg-white/80 backdrop-blur-md px-3 py-1 rounded-full text-xs font-bold text-[#324E64] shadow-sm border border-white/20">
-                      {product.sku}
-                    </div>
-                  )}
-                  {/* Subtle overlay gradient on hover */}
                   <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                 </div>
                 <div className="flex flex-1 flex-col p-6">
@@ -70,7 +45,7 @@ export default async function ProductsPage() {
                     </Link>
                   </h3>
                   <p className="mt-4 flex-1 text-sm leading-6 text-slate-500 line-clamp-3">
-                    {product.description || product.short_description}
+                    {product.shortDescription}
                   </p>
                   <div className="mt-6 flex items-center justify-between z-20 relative">
                     <span className="text-sm font-semibold text-[#F3BA43] flex items-center group-hover:text-[#324E64] transition-colors">

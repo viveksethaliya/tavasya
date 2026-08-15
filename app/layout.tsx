@@ -10,13 +10,13 @@ const hanken = Hanken_Grotesk({
 
 export const metadata: Metadata = {
   title: {
-    template: '%s | Meridian Machine Works',
-    default: 'Meridian Machine Works',
+    template: '%s | Tavasya Machines',
+    default: 'Tavasya Machines',
   },
   description: 'Premium industrial machinery, precision machining solutions, and automated systems for modern manufacturing.',
   robots: 'index, follow',
   alternates: {
-    canonical: 'https://meridian-machine-works.com',
+    canonical: 'https://tavasyamachines.com',
   }
 }
 

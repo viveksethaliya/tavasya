@@ -1,46 +1,27 @@
 'use client'
 
 import React, { useRef, useState } from "react"
-import { submitContactForm } from "@/features/contact/actions"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Label } from "@/components/ui/label"
-import { toast } from "sonner"
-import { RiMapPinLine, RiPhoneLine, RiMailLine, RiLoader4Line } from "@remixicon/react"
+import { RiMapPinLine, RiPhoneLine, RiMailLine } from "@remixicon/react"
 
 export default function ContactPage() {
   const formRef = useRef<HTMLFormElement>(null)
-  const [isSubmitting, setIsSubmitting] = useState(false)
-
-  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault()
-    setIsSubmitting(true)
-    
-    const formData = new FormData(e.currentTarget)
-    const result = await submitContactForm(formData)
-    
-    setIsSubmitting(false)
-    if (result.success) {
-      toast.success("Message sent successfully! We'll get back to you soon.")
-      formRef.current?.reset()
-    } else {
-      toast.error(result.error || "Failed to send message.")
-    }
-  }
 
   return (
     <div className="bg-white">
       {/* Header */}
       <div className="bg-[#1E3448] py-24 sm:py-32">
         <div className="mx-auto max-w-7xl px-6 lg:px-8 text-center">
-          <h1 className="text-4xl font-bold tracking-tight text-white sm:text-5xl">Have a question? We’re here to help.</h1>
+          <h1 className="text-4xl font-bold tracking-tight text-white sm:text-5xl">Have a question? We&apos;re here to help.</h1>
         </div>
       </div>
 
       <div className="mx-auto max-w-7xl px-6 py-16 sm:py-24 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
-          
+
           {/* Contact Information */}
           <div>
             <h2 className="text-3xl font-bold tracking-tight text-[#324E64]">Contact Us:</h2>
@@ -61,20 +42,10 @@ export default function ContactPage() {
                   <RiMailLine className="h-7 w-6 text-[#F3BA43]" aria-hidden="true" />
                 </dt>
                 <dd>
-                  <span className="block font-semibold text-[#324E64]">Official E mail I’d:</span>
+                  <span className="block font-semibold text-[#324E64]">Official E mail I&apos;d:</span>
                   <a className="hover:text-[#324E64] font-medium" href="mailto:info@tavasyamachines.com">
                     info@tavasyamachines.com
                   </a>
-                </dd>
-              </div>
-              <div className="flex gap-x-4">
-                <dt className="flex-none">
-                  <span className="sr-only">Telephone</span>
-                  <RiPhoneLine className="h-7 w-6 text-[#F3BA43]" aria-hidden="true" />
-                </dt>
-                <dd>
-                  <span className="block font-semibold text-[#324E64]">Phone Number:</span>
-                  {/* Keep the number place blank for now */}
                 </dd>
               </div>
               <div className="flex gap-x-4">
@@ -104,10 +75,16 @@ export default function ContactPage() {
             </dl>
           </div>
 
-          {/* Contact Form */}
+          {/* Contact Form — opens user's email client on submit */}
           <div className="bg-slate-50 rounded-3xl p-8 sm:p-10 border border-slate-100 shadow-sm">
             <h3 className="text-2xl font-bold text-[#324E64] mb-8">Send us a message</h3>
-            <form ref={formRef} onSubmit={handleSubmit} className="space-y-6">
+            <form
+              ref={formRef}
+              action="mailto:info@tavasyamachines.com"
+              method="post"
+              encType="text/plain"
+              className="space-y-6"
+            >
               <div className="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2">
                 <div className="sm:col-span-2">
                   <Label htmlFor="name">Full Name *</Label>
@@ -136,29 +113,16 @@ export default function ContactPage() {
                 <div className="sm:col-span-2">
                   <Label htmlFor="message">Message *</Label>
                   <div className="mt-2">
-                    <Textarea
-                      name="message"
-                      id="message"
-                      rows={4}
-                      required
-                    />
+                    <Textarea name="message" id="message" rows={4} required />
                   </div>
                 </div>
               </div>
               <div className="mt-8">
-                <Button 
-                  type="submit" 
-                  disabled={isSubmitting}
+                <Button
+                  type="submit"
                   className="w-full bg-[#324E64] hover:bg-[#324E64]/90 text-white py-6 text-lg rounded-xl"
                 >
-                  {isSubmitting ? (
-                    <>
-                      <RiLoader4Line className="mr-2 h-5 w-5 animate-spin" />
-                      Sending...
-                    </>
-                  ) : (
-                    'Send Message'
-                  )}
+                  Send Message
                 </Button>
               </div>
             </form>

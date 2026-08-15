@@ -8,7 +8,10 @@ export const size = {
 }
 export const contentType = 'image/png'
  
+import { getProductBySlug } from '@/data/products'
+
 export default async function Image({ params }: { params: { slug: string } }) {
+  const product = getProductBySlug(params.slug)
   return new ImageResponse(
     (
       <div
@@ -22,7 +25,7 @@ export default async function Image({ params }: { params: { slug: string } }) {
           justifyContent: 'center',
         }}
       >
-        Meridian Machine Works: {params.slug}
+        Tavasya Machines: {product?.name || params.slug}
       </div>
     ),
     {

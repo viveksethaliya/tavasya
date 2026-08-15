@@ -7,6 +7,6 @@ export default function robots(): MetadataRoute.Robots {
       allow: '/',
       disallow: '/admin/',
     },
-    sitemap: 'https://meridian-machine-works.com/sitemap.xml',
+    sitemap: 'https://tavasyamachines.com/sitemap.xml',
   }
 }

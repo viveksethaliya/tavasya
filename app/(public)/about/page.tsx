@@ -46,9 +46,9 @@ export default function AboutPage() {
           <dl className="grid max-w-xl grid-cols-1 gap-x-8 gap-y-16 sm:grid-cols-2 lg:max-w-none lg:grid-cols-4">
             {[
               { name: 'Cereal & Grain Cleaning', icon: '/icons/image.png' },
-              { name: 'Grading & Sorting Machines', icon: '/icons/image copy.png' },
-              { name: 'Elevators & Conveyors', icon: '/icons/image copy 2.png' },
-              { name: 'Peanut Husk Separator', icon: '/icons/image copy 3.png' },
+              { name: 'Grading & Sorting Machines', icon: '/icons/image1.png' },
+              { name: 'Elevators & Conveyors', icon: '/icons/image2.png' },
+              { name: 'Peanut Husk Separator', icon: '/icons/image3.png' },
             ].map((feature) => (
               <div key={feature.name} className="flex flex-col items-center lg:items-start text-center lg:text-left">
                 <dt className="flex flex-col items-center lg:items-start gap-y-4 text-lg font-semibold leading-7 text-[#324E64]">
