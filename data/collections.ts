@@ -3,6 +3,7 @@ export interface Collection {
   name: string;
   description: string;
   productSlugs: string[];
+  products: any[];
 }
 
 export const COLLECTIONS: Collection[] = [];
