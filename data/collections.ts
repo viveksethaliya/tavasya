@@ -6,3 +6,7 @@ export interface Collection {
 }
 
 export const COLLECTIONS: Collection[] = [];
+
+export function getCollectionBySlug(slug: string): Collection | undefined {
+  return COLLECTIONS.find(c => c.slug === slug);
+}

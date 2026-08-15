@@ -8,3 +8,7 @@ export interface BlogPost {
 }
 
 export const BLOG_POSTS: BlogPost[] = [];
+
+export function getBlogBySlug(slug: string): BlogPost | undefined {
+  return BLOG_POSTS.find(b => b.slug === slug);
+}
