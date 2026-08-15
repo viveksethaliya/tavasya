@@ -9,6 +9,19 @@ import { RiMapPinLine, RiPhoneLine, RiMailLine } from "@remixicon/react"
 
 export default function ContactPage() {
   const formRef = useRef<HTMLFormElement>(null)
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [isSuccess, setIsSuccess] = useState(false)
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    setIsSubmitting(true)
+    // Simulate network request
+    setTimeout(() => {
+      setIsSubmitting(false)
+      setIsSuccess(true)
+      if (formRef.current) formRef.current.reset()
+    }, 1500)
+  }
 
   return (
     <div className="bg-white">
@@ -80,11 +93,21 @@ export default function ContactPage() {
             <h3 className="text-2xl font-bold text-[#324E64] mb-8">Send us a message</h3>
             <form
               ref={formRef}
-              action="mailto:info@tavasyamachines.com"
-              method="post"
-              encType="text/plain"
+              onSubmit={handleSubmit}
               className="space-y-6"
             >
+              {isSuccess && (
+                <div className="rounded-xl bg-green-50 p-4 border border-green-200">
+                  <div className="flex">
+                    <div className="ml-3">
+                      <h3 className="text-sm font-medium text-green-800">Message sent successfully</h3>
+                      <div className="mt-2 text-sm text-green-700">
+                        <p>Thank you for reaching out! Our team will contact you shortly.</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
               <div className="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2">
                 <div className="sm:col-span-2">
                   <Label htmlFor="name">Full Name *</Label>
@@ -120,9 +143,10 @@ export default function ContactPage() {
               <div className="mt-8">
                 <Button
                   type="submit"
-                  className="w-full bg-[#324E64] hover:bg-[#324E64]/90 text-white py-6 text-lg rounded-xl"
+                  disabled={isSubmitting}
+                  className="w-full bg-[#F3BA43] hover:bg-[#F3BA43]/90 text-[#324E64] font-bold py-6 text-lg rounded-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#324E64] transition-colors"
                 >
-                  Send Message
+                  {isSubmitting ? 'Sending...' : 'Send Message'}
                 </Button>
               </div>
             </form>

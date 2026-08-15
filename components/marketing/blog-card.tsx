@@ -16,7 +16,7 @@ interface BlogCardProps {
 
 export function BlogCard({ post }: BlogCardProps) {
   return (
-    <article className="flex flex-col items-start justify-between group h-full">
+    <article className="flex flex-col items-start justify-between group h-full bg-white rounded-2xl overflow-hidden shadow-sm border border-slate-100 transition-all duration-300 hover:shadow-xl hover:-translate-y-1 hover:border-slate-200">
       <div className="relative w-full">
         <div className="relative aspect-[16/9] w-full rounded-2xl bg-slate-50 object-cover sm:aspect-[2/1] lg:aspect-[3/2] overflow-hidden shadow-sm">
           {post.imageUrl ? (
@@ -34,8 +34,8 @@ export function BlogCard({ post }: BlogCardProps) {
         </div>
         <div className="absolute inset-0 rounded-2xl ring-1 ring-inset ring-slate-900/5 pointer-events-none" />
       </div>
-      <div className="flex flex-col flex-grow w-full max-w-xl">
-        <div className="mt-6 flex items-center gap-x-4 text-xs">
+      <div className="flex flex-col flex-grow w-full max-w-xl p-6">
+        <div className="flex items-center gap-x-4 text-xs">
           <time dateTime={post.published_at || new Date().toISOString()} className="text-slate-500 font-medium tracking-wide uppercase">
             {post.published_at ? format(new Date(post.published_at), 'MMM d, yyyy') : 'Recently'}
           </time>

@@ -27,7 +27,7 @@ export default function HomePage() {
         {/* Content */}
         <div className="relative max-w-7xl mx-auto px-6 py-24 sm:py-32 lg:px-8 lg:py-40">
           <div className="max-w-2xl">
-            <h1 className="text-4xl font-bold tracking-tight text-white sm:text-6xl">
+            <h1 className="text-4xl font-bold tracking-tight text-white sm:text-5xl leading-tight">
               Advanced Agro-Processing Machines
             </h1>
             <p className="mt-6 text-lg leading-8 text-slate-300">
@@ -35,12 +35,12 @@ export default function HomePage() {
             </p>
             <div className="mt-10 flex flex-wrap items-center gap-4 sm:gap-x-6">
               <Link href="/contact">
-                <Button size="lg" className="bg-[#F3BA43] text-[#324E64] hover:bg-[#F3BA43]/90 font-bold px-8 shadow-sm w-full sm:w-auto">
-                  Get Started Now
+                <Button size="lg" className="bg-[#F3BA43] text-[#324E64] hover:bg-[#F3BA43]/90 font-bold px-8 shadow-sm w-full sm:w-auto focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F3BA43]">
+                  Contact Us
                 </Button>
               </Link>
-              <Link href="/about" className="text-sm font-semibold leading-6 text-white hover:text-[#F3BA43] transition-colors flex items-center gap-2">
-                Learn More <RiArrowRightLine className="h-4 w-4" />
+              <Link href="/about" className="text-sm font-semibold leading-6 text-white hover:text-[#F3BA43] transition-colors flex items-center gap-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F3BA43] rounded-sm p-1">
+                Explore Solutions <RiArrowRightLine className="h-4 w-4" />
               </Link>
             </div>
           </div>
@@ -87,6 +87,10 @@ export default function HomePage() {
                 <p className="mt-2 text-3xl font-bold tracking-tight text-[#324E64] sm:text-4xl">35+ Years of Engineering Excellence</p>
                 <div className="mt-10 max-w-xl text-base leading-7 text-slate-600">
                   With decades of expertise in agro-food engineering, we bring trusted experience and proven innovation to every solution we create. Our machines are built to handle groundnuts, food grains, pulses, oilseeds, and spices/condiments, ensuring cleaner produce, safer operations, and lasting performance.
+                </div>
+
+                <div className="relative h-64 w-full rounded-2xl overflow-hidden mt-8 shadow-sm border border-slate-100">
+                  <Image src="/images/context/raw-peanuts-closeup.jpg" alt="A close-up photograph showing a large quantity of raw shelled peanuts with reddish-brown skins." fill className="object-cover" />
                 </div>
 
                 <h3 className="mt-8 text-2xl font-bold tracking-tight text-[#324E64]">What We Stand For</h3>
@@ -177,10 +181,17 @@ export default function HomePage() {
                 {
                   title: "Sustainability & Customer Commitment",
                   sentence: "Innovating responsibly to create lasting value for customers and the planet.",
-                  readMore: "Our focus goes beyond building machines, we create solutions that deliver long-term value and consistent performance. Each system is engineered for reliability, precision, and ease of operation, helping our customers achieve higher productivity and uncompromised quality."
+                  readMore: "Our focus goes beyond building machines, we create solutions that deliver long-term value and consistent performance. Each system is engineered for reliability, precision, and ease of operation, helping our customers achieve higher productivity and uncompromised quality.",
+                  image: "/images/context/harvested-peanut-plant.jpg",
+                  alt: "A peanut plant has been pulled from the soil, exposing multiple peanut pods attached to its roots."
                 }
               ].map((feature, idx) => (
                 <div key={idx} className="flex flex-col bg-white rounded-2xl shadow-sm border border-slate-100 p-8">
+                  {feature.image && (
+                    <div className="relative h-48 w-full rounded-xl overflow-hidden mb-6">
+                      <Image src={feature.image} alt={feature.alt} fill className="object-cover" />
+                    </div>
+                  )}
                   <dt className="text-xl font-bold leading-7 text-[#324E64]">{feature.title}</dt>
                   <dd className="mt-4 flex flex-auto flex-col text-base leading-7 text-slate-600">
                     <p className="flex-auto font-medium text-slate-900">{feature.sentence}</p>

@@ -13,6 +13,8 @@ import {
 const navigation = {
   company: [
     { name: 'About Us', href: '/about' },
+    { name: 'Products', href: '/products' },
+    { name: 'Collections', href: '/collections' },
     { name: 'Blog', href: '/blog' },
     { name: 'Contact', href: '/contact' },
   ],
@@ -63,7 +65,7 @@ export function PublicFooter() {
             </p>
             <div className="flex space-x-6">
               {navigation.social.map((item) => (
-                <a key={item.name} href={item.href} className="text-slate-400 hover:text-[#F3BA43]" target="_blank" rel="noopener noreferrer">
+                <a key={item.name} href={item.href} className="text-slate-400 hover:text-[#F3BA43] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F3BA43] rounded-sm transition-colors" target="_blank" rel="noopener noreferrer">
                   <span className="sr-only">{item.name}</span>
                   <item.icon className="h-6 w-6" aria-hidden="true" />
                 </a>
@@ -77,7 +79,7 @@ export function PublicFooter() {
                 <ul role="list" className="mt-6 space-y-4">
                   {navigation.company.map((item) => (
                     <li key={item.name}>
-                      <Link href={item.href} className="text-sm leading-6 hover:text-white transition-colors">
+                      <Link href={item.href} className="text-sm leading-6 hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F3BA43] rounded-sm inline-block">
                         {item.name}
                       </Link>
                     </li>
@@ -95,19 +97,15 @@ export function PublicFooter() {
                   </li>
                   <li className="flex items-center gap-3 text-sm leading-6">
                     <RiMailLine className="h-5 w-5 flex-shrink-0 text-[#F3BA43]" />
-                    <span>Official E mail I’d: <a href="mailto:info@tavasyamachines.com" className="hover:text-white transition-colors">info@tavasyamachines.com</a></span>
+                    <span>Official E mail I’d: <a href="mailto:info@tavasyamachines.com" className="hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F3BA43] rounded-sm inline-block">info@tavasyamachines.com</a></span>
                   </li>
                   <li className="flex items-center gap-3 text-sm leading-6">
                     <RiPhoneLine className="h-5 w-5 flex-shrink-0 text-[#F3BA43]" />
-                    <span>Phone Number: </span>
-                  </li>
-                  <li className="flex items-center gap-3 text-sm leading-6">
-                    <RiPhoneLine className="h-5 w-5 flex-shrink-0 text-[#F3BA43]" />
-                    <span>Talk to an Expert: <a href="tel:+917567585555" className="hover:text-white transition-colors">+91 75675 85555</a></span>
+                    <span>Talk to an Expert: <a href="tel:+917567585555" className="hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F3BA43] rounded-sm inline-block">+91 75675 85555</a></span>
                   </li>
                   <li className="flex items-center gap-3 text-sm leading-6">
                     <RiMailLine className="h-5 w-5 flex-shrink-0 text-[#F3BA43]" />
-                    <span>Email Our Team: <a href="mailto:tavasyamachines@gmail.com" className="hover:text-white transition-colors">tavasyamachines@gmail.com</a></span>
+                    <span>Email Our Team: <a href="mailto:tavasyamachines@gmail.com" className="hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F3BA43] rounded-sm inline-block">tavasyamachines@gmail.com</a></span>
                   </li>
                 </ul>
               </div>

@@ -60,8 +60,8 @@ export function PublicHeader() {
               key={item.name}
               href={item.href}
               className={cn(
-                "text-sm font-semibold leading-6 transition-colors hover:text-[#324E64]",
-                isActive(item.href) ? "text-[#324E64]" : "text-slate-600"
+                "text-sm font-semibold leading-6 transition-colors hover:text-[#324E64] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F3BA43] rounded-md px-3 py-2",
+                isActive(item.href) ? "text-[#324E64] bg-slate-100" : "text-slate-600"
               )}
             >
               {item.name}
@@ -69,7 +69,7 @@ export function PublicHeader() {
           ))}
         </div>
         <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-          <Link href="/contact">
+          <Link href="/contact" className="focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F3BA43] rounded-md inline-block">
             <Button className="bg-[#F3BA43] text-[#324E64] hover:bg-[#F3BA43]/90 font-semibold shadow-sm">
               Contact Us
             </Button>

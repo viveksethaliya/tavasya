@@ -1,0 +1,131 @@
+{
+  "images": [
+    {
+      "image_number": 1,
+      "file": "2148215856.jpg",
+      "subject": "Wheat",
+      "description": "A close-up still-life photograph of wheat grains scattered across a dark wooden surface, with several dried wheat stalks lying horizontally across the upper portion of the image.",
+      "objects": [
+        "wheat grains",
+        "dried wheat stalks",
+        "dark wooden surface"
+      ],
+      "stage": "harvested/raw agricultural product",
+      "setting": "indoor/tabletop",
+      "visual_characteristics": {
+        "dominant_colors": ["golden brown", "tan", "beige", "dark brown"],
+        "composition": "close-up",
+        "lighting": "warm, soft lighting",
+        "background": "dark wooden tabletop with shallow depth of field"
+      }
+    },
+    {
+      "image_number": 2,
+      "file": "2150361174.jpg",
+      "subject": "Raw peanuts",
+      "description": "A close-up photograph showing a large quantity of raw shelled peanuts with reddish-brown skins. The peanuts are densely packed and several have partially removed or damaged skins.",
+      "objects": [
+        "shelled peanuts",
+        "red peanut skins"
+      ],
+      "stage": "raw/unsorted peanut kernels",
+      "setting": "food or agricultural processing context",
+      "visual_characteristics": {
+        "dominant_colors": ["red", "reddish brown", "orange brown", "beige"],
+        "composition": "extreme close-up",
+        "lighting": "diffused lighting",
+        "background": "filled entirely by peanuts"
+      }
+    },
+    {
+      "image_number": 3,
+      "file": "ChatGPT Image Jul 26, 2026, 02_18_33 AM.png",
+      "subject": "Peanut processing",
+      "description": "An industrial food-processing conveyor carrying a large quantity of processed peanuts. Peanuts are visibly falling from an elevated metal conveyor or chute onto the main conveyor belt.",
+      "objects": [
+        "peanuts",
+        "industrial conveyor belt",
+        "metal processing equipment",
+        "feed chute",
+        "food-processing machinery"
+      ],
+      "stage": "industrial processing",
+      "process": "conveyor-based handling and transfer of peanuts",
+      "setting": "food-processing facility",
+      "visual_characteristics": {
+        "dominant_colors": ["light beige", "golden brown", "silver", "gray"],
+        "composition": "wide industrial close-up",
+        "lighting": "bright indoor industrial lighting",
+        "background": "stainless-steel processing machinery"
+      }
+    },
+    {
+      "image_number": 4,
+      "file": "ChatGPT Image Jul 26, 2026, 02_36_57 AM.png",
+      "subject": "Rice processing",
+      "description": "An industrial machine is dispensing a continuous stream of white rice grains into a large metal collection or conveyor tray.",
+      "objects": [
+        "white rice grains",
+        "industrial rice-processing machine",
+        "metal chute",
+        "metal collection tray",
+        "processing equipment"
+      ],
+      "stage": "industrial rice processing",
+      "process": "mechanical discharge and collection of rice",
+      "setting": "food-processing facility",
+      "visual_characteristics": {
+        "dominant_colors": ["white", "off-white", "silver", "gray"],
+        "composition": "close-up industrial scene",
+        "lighting": "bright indoor lighting",
+        "background": "industrial machinery"
+      }
+    },
+    {
+      "image_number": 5,
+      "file": "pexels-nc-farm-bureau-mark-9799037.jpg",
+      "subject": "Peanut plant",
+      "description": "A peanut plant has been pulled from the soil, exposing multiple peanut pods attached to its roots. Green leaves, stems, roots, soil, and underground peanut pods are visible.",
+      "objects": [
+        "peanut pods",
+        "peanut plant",
+        "roots",
+        "green leaves",
+        "stems",
+        "soil"
+      ],
+      "stage": "cultivation/harvest",
+      "process": "peanut plant harvested from the ground",
+      "setting": "agricultural field",
+      "visual_characteristics": {
+        "dominant_colors": ["green", "tan", "brown", "beige"],
+        "composition": "close-up outdoor photograph",
+        "lighting": "natural sunlight",
+        "background": "green vegetation and field"
+      }
+    },
+    {
+      "image_number": 6,
+      "file": "pexels-tuan-vy-903011268-31699602.jpg",
+      "subject": "Agricultural irrigation",
+      "description": "A cultivated agricultural field is being irrigated by a sprinkler system. Water is spraying across rows of crops, with farmland and vegetation extending into the background.",
+      "objects": [
+        "irrigation sprinkler",
+        "water spray",
+        "cultivated field",
+        "crop rows",
+        "soil",
+        "vegetation"
+      ],
+      "stage": "crop cultivation",
+      "process": "field irrigation",
+      "setting": "outdoor agricultural field",
+      "visual_characteristics": {
+        "dominant_colors": ["green", "brown", "tan", "blue-gray"],
+        "composition": "wide landscape photograph",
+        "lighting": "natural daylight",
+        "background": "farmland, vegetation, and distant trees"
+      }
+    }
+  ]
+}

@@ -41,7 +41,7 @@ export default async function CollectionDetailPage(props: { params: Promise<{ sl
         ) : (
           <div className="grid grid-cols-1 gap-y-16 sm:grid-cols-2 sm:gap-x-8 lg:grid-cols-3">
             {collection.products.map((product) => (
-              <div key={product.slug} className="group relative flex flex-col bg-slate-50 rounded-2xl overflow-hidden shadow-sm border border-slate-100 transition-all hover:shadow-md">
+              <div key={product.slug} className="group relative flex flex-col bg-white rounded-2xl overflow-hidden shadow-sm border border-slate-100 transition-all duration-300 hover:shadow-xl hover:-translate-y-1 hover:border-slate-200">
                 <div className="relative aspect-[4/3] w-full overflow-hidden bg-slate-200">
                   <Image
                     src={product.image}
@@ -61,7 +61,7 @@ export default async function CollectionDetailPage(props: { params: Promise<{ sl
                   <p className="mt-4 flex-1 text-sm leading-6 text-slate-600 line-clamp-2">{product.shortDesc}</p>
                   <div className="mt-6 flex items-center justify-between">
                     <span className="text-sm font-semibold text-[#F3BA43] flex items-center group-hover:text-[#324E64] transition-colors">
-                      View Machine <RiArrowRightLine className="ml-1 h-4 w-4" />
+                      View Details <RiArrowRightLine className="ml-1 h-4 w-4" />
                     </span>
                   </div>
                 </div>

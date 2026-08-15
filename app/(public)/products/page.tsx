@@ -39,7 +39,7 @@ export default function ProductsPage() {
                 </div>
                 <div className="flex flex-1 flex-col p-6">
                   <h3 className="text-xl font-bold text-slate-800 group-hover:text-[#324E64] transition-colors">
-                    <Link href={`/products/${product.slug}`}>
+                    <Link href={`/products/${product.slug}`} className="focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F3BA43] rounded-sm inline-block">
                       <span className="absolute inset-0 z-10" />
                       {product.name}
                     </Link>
@@ -64,7 +64,7 @@ export default function ProductsPage() {
           <h2 className="text-2xl font-bold tracking-tight text-[#324E64]">Need a custom solution?</h2>
           <p className="mt-4 text-slate-600">Our engineering team can design machines tailored to your specific processing line.</p>
           <div className="mt-8">
-            <Link href="/contact">
+            <Link href="/contact" className="focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#324E64] rounded-md inline-block">
               <Button className="bg-[#324E64] hover:bg-[#324E64]/90 text-white px-8">Contact Engineering</Button>
             </Link>
           </div>

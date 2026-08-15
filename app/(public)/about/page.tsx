@@ -69,6 +69,9 @@ export default function AboutPage() {
           <div className="mx-auto max-w-2xl lg:max-w-none">
             <div className="grid grid-cols-1 gap-y-16 lg:grid-cols-2 lg:gap-x-16 lg:gap-y-0">
               <div className="flex flex-col gap-6 bg-slate-50 rounded-3xl p-8 sm:p-10 border border-slate-100">
+                <div className="relative h-48 w-full rounded-2xl overflow-hidden">
+                  <Image src="/images/context/peanut-processing-line.png" alt="An industrial food-processing conveyor carrying a large quantity of processed peanuts." fill className="object-cover" />
+                </div>
                 <div className="w-12 h-12 bg-[#F3BA43]/20 rounded-xl flex items-center justify-center">
                   <RiSettings4Line className="h-6 w-6 text-[#F3BA43]" />
                 </div>
@@ -79,6 +82,9 @@ export default function AboutPage() {
               </div>
               
               <div className="flex flex-col gap-6 bg-slate-50 rounded-3xl p-8 sm:p-10 border border-slate-100">
+                <div className="relative h-48 w-full rounded-2xl overflow-hidden">
+                  <Image src="/images/context/rice-processing-line.png" alt="An industrial machine dispensing a continuous stream of white rice grains." fill className="object-cover" />
+                </div>
                 <div className="w-12 h-12 bg-[#F3BA43]/20 rounded-xl flex items-center justify-center">
                   <RiShieldStarLine className="h-6 w-6 text-[#F3BA43]" />
                 </div>
@@ -95,18 +101,28 @@ export default function AboutPage() {
       {/* General About Text */}
       <div className="bg-slate-50 py-24 sm:py-32">
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
-          <div className="mx-auto max-w-3xl text-center">
-            <RiTeamLine className="mx-auto h-12 w-12 text-[#324E64] mb-6" />
-            <h2 className="text-3xl font-bold tracking-tight text-[#324E64] sm:text-4xl">About Tavasya Machine Solutions</h2>
-            <p className="mt-6 text-lg leading-8 text-slate-600 text-left">
-              Tavasya Machine Solutions is a forward-looking engineering company dedicated to transforming the agro-food sector with advanced cleaning and processing technologies. Founded with the vision to deliver innovation, reliability, and efficiency, we specialize in designing and manufacturing high-performance machines for agro-food cleaning.
-            </p>
-            <p className="mt-4 text-lg leading-8 text-slate-600 text-left">
-              Our solutions are built to meet the growing demand for quality, safety, and productivity in food processing. We provide end-to-end services covering design, manufacturing, installation, and lifetime support ensuring that our customers achieve seamless operations with maximum value.
-            </p>
-            <p className="mt-4 text-lg leading-8 text-slate-600 text-left font-semibold">
-              At Tavasya, our purpose is simple yet powerful: to innovate for a cleaner and better future in food processing. Guided by principles of trust, precision, and customer-first values, we are committed to setting new benchmarks in agro-food technology while contributing to a more sustainable and efficient food supply chain.
-            </p>
+          <div className="mx-auto grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 lg:mx-0 lg:max-w-none lg:grid-cols-2 lg:items-center">
+            <div>
+              <RiTeamLine className="h-12 w-12 text-[#324E64] mb-6" />
+              <h2 className="text-3xl font-bold tracking-tight text-[#324E64] sm:text-4xl">About Tavasya Machine Solutions</h2>
+              <p className="mt-6 text-lg leading-8 text-slate-600">
+                Tavasya Machine Solutions is a forward-looking engineering company dedicated to transforming the agro-food sector with advanced cleaning and processing technologies. Founded with the vision to deliver innovation, reliability, and efficiency, we specialize in designing and manufacturing high-performance machines for agro-food cleaning.
+              </p>
+              <p className="mt-4 text-lg leading-8 text-slate-600">
+                Our solutions are built to meet the growing demand for quality, safety, and productivity in food processing. We provide end-to-end services covering design, manufacturing, installation, and lifetime support ensuring that our customers achieve seamless operations with maximum value.
+              </p>
+              <p className="mt-4 text-lg leading-8 text-slate-600 font-semibold">
+                At Tavasya, our purpose is simple yet powerful: to innovate for a cleaner and better future in food processing. Guided by principles of trust, precision, and customer-first values, we are committed to setting new benchmarks in agro-food technology while contributing to a more sustainable and efficient food supply chain.
+              </p>
+            </div>
+            <div className="relative aspect-square lg:aspect-[4/5] w-full rounded-3xl overflow-hidden shadow-lg border border-slate-200">
+              <Image 
+                src="/images/context/wheat-grains-closeup.jpg" 
+                alt="A close-up still-life photograph of wheat grains scattered across a dark wooden surface." 
+                fill 
+                className="object-cover" 
+              />
+            </div>
           </div>
         </div>
       </div>
