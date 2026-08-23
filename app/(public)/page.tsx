@@ -78,7 +78,7 @@ export default function HomePage() {
       </div>
 
       {/* 3rd Section: Excellence & Testimonials */}
-      <div className="py-24 sm:py-32">
+      <div className="pt-24 pb-12 sm:py-32">
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
           <div className="mx-auto grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 sm:gap-y-20 lg:mx-0 lg:max-w-none lg:grid-cols-2 lg:items-start">
             <div className="lg:pr-4">
@@ -156,7 +156,7 @@ export default function HomePage() {
       </div>
 
       {/* 4th Section: Company Features */}
-      <div className="bg-slate-50 py-24 sm:py-32">
+      <div className="bg-slate-50 pt-12 pb-24 sm:py-32">
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
           <div className="mx-auto max-w-2xl lg:text-center">
             <h2 className="text-3xl font-bold tracking-tight text-[#324E64] sm:text-4xl">Our Company Features</h2>
