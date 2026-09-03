@@ -1,11 +1,35 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
+const wpScanPatterns = [
+  /^\/wp-admin/i,
+  /^\/wp-login\.php/i,
+  /^\/xmlrpc\.php/i,
+  /^\/\.env/i,
+  /^\/\.git/i,
+  /^\/\d{4}\/\d{2}\/\d{2}\// // /YYYY/MM/DD/
+];
+
+const blockedUserAgents = ['meta-externalagent', 'meta-webindexer'];
+
 export function middleware(request: NextRequest) {
-  const userAgent = request.headers.get('user-agent') || '';
-  
-  if (userAgent.toLowerCase().includes('meta-externalagent')) {
+  const { pathname, search } = request.nextUrl;
+  const host = request.headers.get('host');
+  const userAgent = (request.headers.get('user-agent') || '').toLowerCase();
+
+  // 1. Kill scan/attack traffic FIRST — cheapest possible response, no redirect hop
+  if (wpScanPatterns.some(pattern => pattern.test(pathname))) {
+    return new NextResponse(null, { status: 404 });
+  }
+
+  // 2. Kill blocked bots FIRST — same reasoning, don't let them consume a redirect hop
+  if (blockedUserAgents.some(ua => userAgent.includes(ua))) {
     return new NextResponse(null, { status: 403 });
+  }
+
+  // 3. THEN canonicalize domain for everything that survived the checks above
+  if (host === 'tavasyamachines.com') {
+    return NextResponse.redirect(`https://www.tavasyamachines.com${pathname}${search}`, { status: 301 });
   }
 
   return NextResponse.next();

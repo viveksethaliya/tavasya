@@ -9,6 +9,7 @@ const hanken = Hanken_Grotesk({
 })
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://www.tavasyamachines.com'),
   title: {
     template: '%s | Tavasya Machines',
     default: 'Tavasya Machines',
@@ -16,7 +17,7 @@ export const metadata: Metadata = {
   description: 'Premium industrial machinery, precision machining solutions, and automated systems for modern manufacturing.',
   robots: 'index, follow',
   alternates: {
-    canonical: 'https://tavasyamachines.com',
+    canonical: '/',
   }
 }
 

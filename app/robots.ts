@@ -9,10 +9,10 @@ export default function robots(): MetadataRoute.Robots {
         disallow: '/admin/',
       },
       {
-        userAgent: 'meta-externalagent',
+        userAgent: ['meta-externalagent', 'meta-webindexer', 'Jetpack', 'WordPress.com'],
         disallow: '/',
       },
     ],
-    sitemap: 'https://tavasyamachines.com/sitemap.xml',
+    sitemap: 'https://www.tavasyamachines.com/sitemap.xml',
   }
 }
