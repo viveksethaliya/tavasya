@@ -1,0 +1,53 @@
+{
+  "version": 3,
+  "middleware": {},
+  "sortedMiddleware": [],
+  "functions": {
+    "/(public)/products/[slug]/opengraph-image-1yqe3g/route": {
+      "files": [
+        "server/middleware-build-manifest.js",
+        "server/interception-route-rewrite-manifest.js",
+        "required-server-files.js",
+        "server/server-reference-manifest.js",
+        "server/app/(public)/products/[slug]/opengraph-image-1yqe3g/route_client-reference-manifest.js",
+        "server/edge/chunks/1jng_app_(public)_products_[slug]_opengraph-image-1yqe3g_route_actions_0s302eb.js",
+        "server/edge/chunks/[root-of-the-server]__0ka9jsw._.js",
+        "server/edge/chunks/[root-of-the-server]__0s1ex0i._.js",
+        "server/edge/chunks/[root-of-the-server]__0167nzz._.js",
+        "server/edge/chunks/turbopack-node_modules_next_dist_esm_build_templates_edge-wrapper_04z8770.js"
+      ],
+      "name": "app/(public)/products/[slug]/opengraph-image-1yqe3g/route",
+      "page": "/(public)/products/[slug]/opengraph-image-1yqe3g/route",
+      "entrypoint": "server/edge/chunks/turbopack-node_modules_next_dist_esm_build_templates_edge-wrapper_04z8770.js",
+      "matchers": [
+        {
+          "regexp": "^/products/(?P<nxtPslug>[^/]+?)/opengraph-image-1yqe3g(?:/)?$",
+          "originalSource": "/products/[slug]/opengraph-image-1yqe3g"
+        }
+      ],
+      "wasm": [
+        {
+          "name": "wasm_10a187050363648b49a36c79d5266d2c",
+          "filePath": "server/edge/chunks/node_modules_next_dist_compiled_@vercel_og_yoga_0athij3.wasm"
+        },
+        {
+          "name": "wasm_151b7f7b511bd6dda63695d2c75c87a3",
+          "filePath": "server/edge/chunks/node_modules_next_dist_compiled_@vercel_og_resvg_0athij3.wasm"
+        }
+      ],
+      "assets": [
+        {
+          "name": "server/edge/assets/Geist-Regular.05-7db9wczy07.ttf",
+          "filePath": "server/edge/assets/Geist-Regular.05-7db9wczy07.ttf"
+        }
+      ],
+      "env": {
+        "__NEXT_BUILD_ID": "HZ47OHS5AnN4LMfqEMJEZ",
+        "NEXT_SERVER_ACTIONS_ENCRYPTION_KEY": "wzxEr93+S1PFlFfJoWuHEZmSjWBPt7wFG4ewPcyyB3U=",
+        "__NEXT_PREVIEW_MODE_ID": "17529f992bb75f4abb944d2f2b9f6d5f",
+        "__NEXT_PREVIEW_MODE_ENCRYPTION_KEY": "91cce785f255200dafe3d859ea7581db8ed2616056f43ee5d8d60e9e45adc584",
+        "__NEXT_PREVIEW_MODE_SIGNING_KEY": "06bb00de437d6a11fc055afca6f41955c1fa9c4fb7afac1aba7b464b8e2e1aa0"
+      }
+    }
+  }
+}

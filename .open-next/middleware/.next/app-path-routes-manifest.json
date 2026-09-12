@@ -1,0 +1,18 @@
+{
+  "/(public)/about/page": "/about",
+  "/(public)/blog/[slug]/page": "/blog/[slug]",
+  "/(public)/blog/page": "/blog",
+  "/(public)/collections/[slug]/page": "/collections/[slug]",
+  "/(public)/collections/page": "/collections",
+  "/(public)/contact/page": "/contact",
+  "/(public)/page": "/",
+  "/(public)/privacy-policy/page": "/privacy-policy",
+  "/(public)/products/[slug]/opengraph-image-1yqe3g/route": "/products/[slug]/opengraph-image-1yqe3g",
+  "/(public)/products/[slug]/page": "/products/[slug]",
+  "/(public)/products/page": "/products",
+  "/(public)/terms-and-conditions/page": "/terms-and-conditions",
+  "/_global-error/page": "/_global-error",
+  "/_not-found/page": "/_not-found",
+  "/dev/components/page": "/dev/components",
+  "/icon.png/route": "/icon.png"
+}

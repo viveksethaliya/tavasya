@@ -1,3 +1,3 @@
-module.exports=[66033,a=>{"use strict";var b=a.i(7997);a.s(["default",0,function(){return(0,b.jsxs)("div",{className:"flex flex-col items-center justify-center min-h-[50vh]",children:[(0,b.jsx)("h2",{className:"text-3xl font-bold mb-4",children:"404 - Not Found"}),(0,b.jsx)("p",{className:"text-muted-foreground",children:"Could not find requested resource"})]})}])},68665,a=>{a.n(a.i(66033))}];
+module.exports=[66033,a=>{"use strict";var b=a.i(7997);a.s(["default",0,function(){return(0,b.jsxs)("div",{className:"flex flex-col items-center justify-center min-h-[50vh]",children:[(0,b.jsx)("h2",{className:"text-3xl font-bold mb-4",children:"404 - Not Found"}),(0,b.jsx)("p",{className:"text-muted-foreground",children:"Could not find requested resource"})]})}])},68665,function(a){a.n(a.i(66033))}];
 
 //# sourceMappingURL=app_%28public%29_not-found_tsx_1jfx50h._.js.map
