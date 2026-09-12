@@ -1,5 +1,11 @@
 import Image from "next/image"
 import Link from "next/link"
+
+// Note: ISR revalidation writes (e.g., revalidate = 3600) require a configured KV/R2 incrementalCache backend.
+// Since we are using the default read-only StaticAssetsIncrementalCache, we set this to false
+// to serve the build-time HTML indefinitely via Edge cache interception.
+export const revalidate = false;
+
 import { Button } from "@/components/ui/button"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogDescription } from "@/components/ui/dialog"
 import {
