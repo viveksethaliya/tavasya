@@ -53,7 +53,7 @@ export function PublicFooter() {
           <div className="space-y-8">
             <div className="relative h-12 w-48">
               <Image
-                src="/Logo-E10.png"
+                src="/logo-e10.png"
                 alt="Tavasya Machine Solutions"
                 fill
                 sizes="192px"

@@ -45,10 +45,10 @@ export default function AboutPage() {
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
           <dl className="grid max-w-xl grid-cols-1 gap-x-8 gap-y-16 sm:grid-cols-2 lg:max-w-none lg:grid-cols-4">
             {[
-              { name: 'Cereal & Grain Cleaning', icon: '/icons/image.png' },
-              { name: 'Grading & Sorting Machines', icon: '/icons/image1.png' },
-              { name: 'Elevators & Conveyors', icon: '/icons/image2.png' },
-              { name: 'Peanut Husk Separator', icon: '/icons/image3.png' },
+              { name: 'Cereal & Grain Cleaning', icon: '/icons/image.webp' },
+              { name: 'Grading & Sorting Machines', icon: '/icons/image1.webp' },
+              { name: 'Elevators & Conveyors', icon: '/icons/image2.webp' },
+              { name: 'Peanut Husk Separator', icon: '/icons/image3.webp' },
             ].map((feature) => (
               <div key={feature.name} className="flex flex-col items-center lg:items-start text-center lg:text-left">
                 <dt className="flex flex-col items-center lg:items-start gap-y-4 text-lg font-semibold leading-7 text-[#324E64]">
@@ -70,7 +70,7 @@ export default function AboutPage() {
             <div className="grid grid-cols-1 gap-y-16 lg:grid-cols-2 lg:gap-x-16 lg:gap-y-0">
               <div className="flex flex-col gap-6 bg-slate-50 rounded-3xl p-8 sm:p-10 border border-slate-100">
                 <div className="relative h-48 w-full rounded-2xl overflow-hidden">
-                  <Image src="/images/context/peanut-processing-line.png" alt="An industrial food-processing conveyor carrying a large quantity of processed peanuts." fill className="object-cover" />
+                  <Image src="/images/context/peanut-processing-line.webp" alt="An industrial food-processing conveyor carrying a large quantity of processed peanuts." fill className="object-cover" />
                 </div>
                 <div className="w-12 h-12 bg-[#F3BA43]/20 rounded-xl flex items-center justify-center">
                   <RiSettings4Line className="h-6 w-6 text-[#F3BA43]" />
@@ -83,7 +83,7 @@ export default function AboutPage() {
               
               <div className="flex flex-col gap-6 bg-slate-50 rounded-3xl p-8 sm:p-10 border border-slate-100">
                 <div className="relative h-48 w-full rounded-2xl overflow-hidden">
-                  <Image src="/images/context/rice-processing-line.png" alt="An industrial machine dispensing a continuous stream of white rice grains." fill className="object-cover" />
+                  <Image src="/images/context/rice-processing-line.webp" alt="An industrial machine dispensing a continuous stream of white rice grains." fill className="object-cover" />
                 </div>
                 <div className="w-12 h-12 bg-[#F3BA43]/20 rounded-xl flex items-center justify-center">
                   <RiShieldStarLine className="h-6 w-6 text-[#F3BA43]" />
@@ -117,7 +117,7 @@ export default function AboutPage() {
             </div>
             <div className="relative aspect-square lg:aspect-[4/5] w-full rounded-3xl overflow-hidden shadow-lg border border-slate-200">
               <Image 
-                src="/images/context/wheat-grains-closeup.jpg" 
+                src="/images/context/wheat-grains-closeup.webp" 
                 alt="A close-up still-life photograph of wheat grains scattered across a dark wooden surface." 
                 fill 
                 className="object-cover" 

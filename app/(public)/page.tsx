@@ -22,7 +22,7 @@ export default function HomePage() {
         {/* Background Image */}
         <div className="absolute inset-0">
           <Image
-            src="/hero-bg.png"
+            src="/hero-bg.webp"
             alt="Advanced agro-food cleaning and sorting machine facility"
             fill
             className="object-cover object-center opacity-30 mix-blend-overlay"
@@ -64,10 +64,10 @@ export default function HomePage() {
           <div className="mx-auto mt-16 max-w-2xl sm:mt-20 lg:mt-24 lg:max-w-none">
             <dl className="grid max-w-xl grid-cols-1 gap-x-8 gap-y-16 sm:grid-cols-2 lg:max-w-none lg:grid-cols-4">
               {[
-                { name: 'Cereal & Grain Cleaning', icon: '/icons/image.png' },
-                { name: 'Grading & Sorting Machines', icon: '/icons/image1.png' },
-                { name: 'Elevators & Conveyors', icon: '/icons/image3.png' },
-                { name: 'Peanut Husk Separator', icon: '/icons/image2.png' },
+                { name: 'Cereal & Grain Cleaning', icon: '/icons/image.webp' },
+                { name: 'Grading & Sorting Machines', icon: '/icons/image1.webp' },
+                { name: 'Elevators & Conveyors', icon: '/icons/image3.webp' },
+                { name: 'Peanut Husk Separator', icon: '/icons/image2.webp' },
               ].map((feature) => (
                 <div key={feature.name} className="flex flex-col items-center lg:items-start text-center lg:text-left">
                   <dt className="flex flex-col items-center lg:items-start gap-y-4 text-lg font-semibold leading-7 text-[#324E64]">
@@ -96,7 +96,7 @@ export default function HomePage() {
                 </div>
 
                 <div className="relative h-64 w-full rounded-2xl overflow-hidden mt-8 shadow-sm border border-slate-100">
-                  <Image src="/images/context/raw-peanuts-closeup.jpg" alt="A close-up photograph showing a large quantity of raw shelled peanuts with reddish-brown skins." fill className="object-cover" />
+                  <Image src="/images/context/raw-peanuts-closeup.webp" alt="A close-up photograph showing a large quantity of raw shelled peanuts with reddish-brown skins." fill className="object-cover" />
                 </div>
 
                 <h3 className="mt-8 text-2xl font-bold tracking-tight text-[#324E64]">What We Stand For</h3>
@@ -188,7 +188,7 @@ export default function HomePage() {
                   title: "Sustainability & Customer Commitment",
                   sentence: "Innovating responsibly to create lasting value for customers and the planet.",
                   readMore: "Our focus goes beyond building machines, we create solutions that deliver long-term value and consistent performance. Each system is engineered for reliability, precision, and ease of operation, helping our customers achieve higher productivity and uncompromised quality.",
-                  image: "/images/context/harvested-peanut-plant.jpg",
+                  image: "/images/context/harvested-peanut-plant.webp",
                   alt: "A peanut plant has been pulled from the soil, exposing multiple peanut pods attached to its roots."
                 }
               ].map((feature, idx) => (
