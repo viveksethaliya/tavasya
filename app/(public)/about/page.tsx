@@ -139,7 +139,7 @@ export default function AboutPage() {
               <h3 className="text-xl font-bold text-white mb-6">Contact Us:</h3>
               <p><strong className="text-white">Phone:</strong> +91 XXXXXXXXXX</p>
               <p><strong className="text-white">Email:</strong> info@tavasyamachines.com</p>
-              <p><strong className="text-white">Address:</strong> Office No. 513, Viral Hights, Near Ayodhya Chowk, 150 Feet Ring Rd, Rajkot, 360006</p>
+              <p><strong className="text-white">Address:</strong> Shreenathji Nagar, Junagadh Road, Keshod, Gujarat, 362220</p>
             </div>
           </div>
         </div>

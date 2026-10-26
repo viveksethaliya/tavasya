@@ -106,7 +106,7 @@ Phone Number: Keep the number place blank for now
 tavasyamachines@gmail.com
 
 **Adress:**  
-Office No. 513, Viral Hights, Near Ayodhya Chowk, 150 Feet Ring Rd, Rajkot, 360006
+Shreenathji Nagar, Junagadh Road, Keshod, Gujarat, 362220
 
 **Client Reviews:** 
 

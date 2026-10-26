@@ -46,7 +46,7 @@ export default function ContactPage() {
                 </dt>
                 <dd>
                   <span className="block font-semibold text-[#324E64]">Address:</span>
-                  Office No. 513, Viral Hights, Near Ayodhya Chowk, 150 Feet Ring Rd, Rajkot, 360006
+                  Shreenathji Nagar, Junagadh Road, Keshod, Gujarat, 362220
                 </dd>
               </div>
               <div className="flex gap-x-4">
