@@ -9,7 +9,7 @@ export default function BlogPage() {
       <div className="relative isolate overflow-hidden bg-[#1E3448] py-24 sm:py-32">
         <div className="absolute inset-0 -z-10">
           <Image
-            src="/images/context/field-irrigation.jpg"
+            src="/images/context/field-irrigation.webp"
             alt="A cultivated agricultural field is being irrigated by a sprinkler system."
             fill
             className="object-cover object-center opacity-40 mix-blend-overlay"

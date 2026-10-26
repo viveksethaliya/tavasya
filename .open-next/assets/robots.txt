@@ -1,0 +1,11 @@
+User-agent: *
+Allow: /
+Disallow: /admin/
+
+User-agent: meta-externalagent
+User-agent: meta-webindexer
+User-agent: Jetpack
+User-agent: WordPress.com
+Disallow: /
+
+Sitemap: https://www.tavasyamachines.com/sitemap.xml

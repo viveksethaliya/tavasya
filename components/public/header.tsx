@@ -34,7 +34,7 @@ export function PublicHeader() {
             <span className="sr-only">Tavasya Machine Solutions</span>
             <div className="relative h-10 w-40">
               <Image
-                src="/Logo-E11.png"
+                src="/logo-e11.png"
                 alt="Tavasya Logo"
                 fill
                 sizes="160px"
@@ -89,7 +89,7 @@ export function PublicHeader() {
                 <span className="sr-only">Tavasya Machine Solutions</span>
                 <div className="relative h-8 w-32">
                   <Image
-                    src="/Logo-E10.png"
+                    src="/logo-e10.png"
                     alt="Tavasya Logo"
                     fill
                     sizes="128px"

@@ -1,7 +1,7 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  images: {
+  images: { unoptimized: true,
     // Add remote domains here if you host images elsewhere
     remotePatterns: [],
     minimumCacheTTL: 31536000,

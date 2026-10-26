@@ -1,0 +1,18 @@
+{
+  "/(public)/about/page": "app/(public)/about/page.js",
+  "/(public)/blog/[slug]/page": "app/(public)/blog/[slug]/page.js",
+  "/(public)/blog/page": "app/(public)/blog/page.js",
+  "/(public)/collections/[slug]/page": "app/(public)/collections/[slug]/page.js",
+  "/(public)/collections/page": "app/(public)/collections/page.js",
+  "/(public)/contact/page": "app/(public)/contact/page.js",
+  "/(public)/page": "app/(public)/page.js",
+  "/(public)/privacy-policy/page": "app/(public)/privacy-policy/page.js",
+  "/(public)/products/[slug]/opengraph-image-1yqe3g/route": "app-edge-has-no-entrypoint",
+  "/(public)/products/[slug]/page": "app/(public)/products/[slug]/page.js",
+  "/(public)/products/page": "app/(public)/products/page.js",
+  "/(public)/terms-and-conditions/page": "app/(public)/terms-and-conditions/page.js",
+  "/_global-error/page": "app/_global-error/page.js",
+  "/_not-found/page": "app/_not-found/page.js",
+  "/dev/components/page": "app/dev/components/page.js",
+  "/icon.png/route": "app/icon.png/route.js"
+}
