@@ -93,7 +93,7 @@ export function PublicFooter() {
                 <ul role="list" className="mt-6 space-y-4">
                   <li className="flex items-start gap-3 text-sm leading-6">
                     <RiMapPinLine className="h-5 w-5 flex-shrink-0 text-[#F3BA43]" />
-                    <span>Office No. 513, Viral Hights, Near Ayodhya Chowk, 150 Feet Ring Rd, Rajkot, 360006</span>
+                    <span>Shreenathji Nagar, Junagadh Road, Keshod, Gujarat, 362220</span>
                   </li>
                   <li className="flex items-center gap-3 text-sm leading-6">
                     <RiMailLine className="h-5 w-5 flex-shrink-0 text-[#F3BA43]" />
